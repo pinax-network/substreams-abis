@@ -32,11 +32,13 @@ This directory contains the ABIs for the various blockchains that Substreams sup
 ## Quickstart
 
 ```rust
-use substreams_abi::erc20::events::Transfer;
 ...
+use substreams_abi::erc20::events::Transfer;
+
+// Iterates over successful transactions
 for trx in block.transactions() {
-  // Iterates over all logs in the transaction
-  // Excluding those from calls that were not recorded to the chain's state.
+  // Iterates over all logs in the transaction, excluding those from calls that were not recorded to the chain's state.
+  // The logs are sorted by their ordinal and returned as pairs of (log, call) where call is the call that produced the log.
   for (log, call_view) in trx.logs_with_calls() {
     // -- Transfer --
     let transfer = match Transfer::match_and_decode(log) {
