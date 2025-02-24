@@ -1,27 +1,39 @@
 use anyhow::Result;
+use std::fs;
+use std::path::PathBuf;
 use substreams_ethereum::Abigen;
 use walkdir::WalkDir;
-use std::path::PathBuf;
 
 fn main() -> Result<()> {
-    // Recursively walk through the `./.src` directory
-    for entry in WalkDir::new("./src").into_iter().filter_map(|e| e.ok()) {
-        let path = entry.path();
+    // Base directory for your generated files
+    let out_base = PathBuf::from("./src");
 
-        // Only process if this is a .json file
-        if path.is_file() && path.extension().and_then(|ext| ext.to_str()) == Some("json") {
-            // Get the contract name from the file stem
-            let contract_name = path
+    // Recursively walk through `./.src`
+    for entry in WalkDir::new("./abi").into_iter().filter_map(|e| e.ok()) {
+        let json_path = entry.path();
+
+        // Only process `.json` files
+        if json_path.is_file() && json_path.extension().and_then(|ext| ext.to_str()) == Some("json") {
+            // Convert the file stem to lowercase
+            let contract_name = json_path
                 .file_stem()
                 .and_then(|s| s.to_str())
-                .unwrap_or("unknown_contract");
+                .unwrap_or("unknown_contract")
+                .to_lowercase();
 
-            // Build the output path by taking the same folder and changing the extension to `.rs`
-            let mut output_path = PathBuf::from(path);
-            output_path.set_extension("rs");
+            // Strip off the leading `./.src/` portion so we can reconstruct a parallel folder tree
+            let relative_path = json_path.strip_prefix("./abi")?;
+            // Build a PathBuf:  base + the original subfolder + set extension to .rs
+            let mut output_path = out_base.join(relative_path);
+            output_path.set_file_name(format!("{}.rs", contract_name));
 
-            // Generate the bindings and write to the same folder
-            Abigen::new(contract_name, &path.to_string_lossy())?
+            // Ensure any subdirectories are created
+            if let Some(parent) = output_path.parent() {
+                fs::create_dir_all(parent)?;
+            }
+
+            // Generate & write
+            Abigen::new(&contract_name, &json_path.to_string_lossy().to_string())?
                 .generate()?
                 .write_to_file(output_path)?;
         }

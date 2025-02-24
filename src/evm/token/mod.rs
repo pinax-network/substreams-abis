@@ -1,6 +1,6 @@
-pub mod ERC20;
-pub mod ERC721;
-pub mod ERC1155;
-pub mod ERC2981;
-pub mod ERC4626;
+pub mod erc20;
+pub mod erc721;
+pub mod erc1155;
+pub mod erc2981;
+pub mod erc4626;
 pub mod extensions;
