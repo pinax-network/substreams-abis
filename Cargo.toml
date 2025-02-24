@@ -1,0 +1,23 @@
+[package]
+name = "substreams-abis"
+version = "0.1.0"
+description = "Substreams ABIs"
+edition = "2021"
+authors = [
+    "Denis <denis@pinax.network>",
+]
+
+[lib]
+crate-type = ["rlib"]
+
+[dependencies]
+ethabi = "18.0"
+substreams = "0.6"
+substreams-ethereum = "0.10"
+num-bigint = "0.4"
+
+[build-dependencies]
+prost-build = "0.13"
+anyhow = "1"
+substreams-ethereum = "0.10"
+walkdir = "2"
