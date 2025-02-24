@@ -1,6 +1,6 @@
 # Substreams ABIs
 
-This directory contains the ABIs for the various blockchains that Substreams supports.
+This directory contains standard ABIs for the various blockchains that Substreams supports.
 
 ## EVM
 
@@ -15,8 +15,17 @@ This directory contains the ABIs for the various blockchains that Substreams sup
 
 ## Solana
 
+> Solana, Eclipse, Solana Devnet
+
 - [ ] `spl-token`
 - [ ] `spl-memo`
+
+## Antelope
+
+> EOS, WAX, Telos, Ultra,...
+
+- [ ] `eosio.token`
+- [ ] `eosio.system`
 
 ## How to contribute?
 
@@ -41,10 +50,13 @@ for trx in block.transactions() {
   // The logs are sorted by their ordinal and returned as pairs of (log, call) where call is the call that produced the log.
   for (log, call_view) in trx.logs_with_calls() {
     // -- Transfer --
-    let transfer = match Transfer::match_and_decode(log) {
+    let transfer = match Transfer::decode(&log) {
         Some(transfer) => transfer,
         None => continue,
     };
+    // transfer.from => 6D1D1ebe7dA598194293784252659e862d55b52c
+    // transfer.to => c7bBeC68d12a0d1830360F8Ec58fA599bA1b0e9b
+    // transfer.value => 3400000000
   }
 }
 ```
