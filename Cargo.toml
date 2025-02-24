@@ -2,6 +2,7 @@
 name = "substreams-abis"
 version = "0.1.0"
 description = "Substreams ABIs"
+license = "MIT"
 edition = "2021"
 authors = [
     "Denis <denis@pinax.network>",
