@@ -13,6 +13,11 @@ This directory contains standard ABIs for the various blockchains that Substream
 - [x] `erc-4626`
 - [ ] `erc-777`
 
+## EVM Contracts
+
+- [x] `Uniswap`
+  - [x] `UniswapV2pair`
+
 ## Solana
 
 > Solana, Eclipse, Solana Devnet
