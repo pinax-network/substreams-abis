@@ -1,1 +1,2 @@
-pub mod uniswapv2pair;
+pub mod pair;
+pub mod factory;
