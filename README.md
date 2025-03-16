@@ -15,8 +15,9 @@ This directory contains standard ABIs for the various blockchains that Substream
 
 ## EVM Contracts
 
-- [x] `Uniswap`
-  - [x] `UniswapV2pair`
+- [x] `Uniswap V2`
+  - [x] `Pair`
+  - [x] `Factory`
 
 ## Solana
 
