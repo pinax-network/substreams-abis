@@ -12,12 +12,16 @@ This directory contains standard ABIs for the various blockchains that Substream
 - [x] `erc-2981`
 - [x] `erc-4626`
 - [ ] `erc-777`
+- [ ] `erc-3643`
 
 ## EVM Contracts
 
 - [x] `Uniswap V2`
   - [x] `Pair`
   - [x] `Factory`
+- [ ] `Uniswap V3`
+  - [ ] `Pool`
+  - [ ] `Factory`
 
 ## Solana
 
