@@ -7,6 +7,8 @@ This directory contains standard ABIs for the various blockchains that Substream
 > Ethereum, Base, BSC, ArbOne, Polygon,...
 
 - [x] `erc-20`
+  - [x] `Names` & `Symbols`
+  - [x] `USDC`
 - [x] `erc-721`
 - [x] `erc-1155`
 - [x] `erc-2981`
@@ -19,9 +21,11 @@ This directory contains standard ABIs for the various blockchains that Substream
 - [x] `Uniswap V2`
   - [x] `Pair`
   - [x] `Factory`
-- [ ] `Uniswap V3`
-  - [ ] `Pool`
-  - [ ] `Factory`
+- [x] `Uniswap V3`
+  - [x] `Pool`
+  - [x] `Factory`
+- [x] `Uniswap V4`
+  - [x] `PoolManager`
 
 ## Solana
 
