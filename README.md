@@ -6,15 +6,22 @@ This directory contains standard ABIs for the various blockchains that Substream
 
 > Ethereum, Base, BSC, ArbOne, Polygon,...
 
-- [x] `erc-20`
-  - [x] `Names` & `Symbols`
-  - [x] `USDC`
-- [x] `erc-721`
-- [x] `erc-1155`
-- [x] `erc-2981`
-- [x] `erc-4626`
-- [ ] `erc-777`
-- [ ] `erc-3643`
+- [x] `ERC-20`
+- [x] `ERC-721`
+- [x] `ERC-1155`
+- [x] `ERC-2981`
+- [x] `ERC-4626`
+- [x] `ERC-777`
+- [x] `ERC-3643`
+
+## EVM Tokens
+
+- [x] SAI/DAI
+- [x] USDC
+- [x] USDT
+- [x] WETH
+- [x] WBTC
+- [x] stETH
 
 ## EVM Contracts
 
@@ -56,7 +63,7 @@ This directory contains standard ABIs for the various blockchains that Substream
 
 ```rust
 ...
-use substreams_abi::erc20::events::Transfer;
+use substreams_abi::evm::token::erc20::events::Transfer;
 
 // Iterates over successful transactions
 for trx in block.transactions() {

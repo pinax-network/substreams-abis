@@ -1,9 +1,8 @@
 pub mod erc20;
-pub mod erc20_name_symbol;
 pub mod erc721;
 pub mod erc777;
 pub mod erc1155;
 pub mod erc2981;
+pub mod erc3643;
 pub mod erc4626;
 pub mod extensions;
-pub mod usdc;
