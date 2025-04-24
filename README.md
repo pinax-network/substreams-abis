@@ -33,7 +33,7 @@ This directory contains standard ABIs for the various blockchains that Substream
   - [x] `Factory`
 - [x] `Uniswap V4`
   - [x] `PoolManager`
-- [x] `ENS`
+- [x] `ENS V1`
   - [x] `ENSRegistry`
   - [x] `EthRegistrarController`
   - [x] `PublicResolver`

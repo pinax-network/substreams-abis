@@ -1,5 +1,2 @@
-pub mod ensregistry;
-pub mod ethregistrarcontroller;
-pub mod namewrapper;
-pub mod publicresolver;
-pub mod reverseregistrar;
+pub mod v0;
+pub mod v1;
