@@ -1,11 +1,8 @@
 #[cfg(test)]
 mod tests {
-    use std::str::FromStr;
-
     use substreams_abis::evm::ens::publicresolver::events::AddrChanged;
     use substreams_ethereum::pb::eth::v2::Log;
     use substreams::hex;
-    use substreams::scalar::BigInt;
 
     #[test]
     fn test_ens_resolver() {
