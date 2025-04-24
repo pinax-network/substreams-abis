@@ -33,6 +33,12 @@ This directory contains standard ABIs for the various blockchains that Substream
   - [x] `Factory`
 - [x] `Uniswap V4`
   - [x] `PoolManager`
+- [x] `ENS`
+  - [x] `ENSRegistry`
+  - [x] `EthRegistrarController`
+  - [x] `PublicResolver`
+  - [x] `ReverseRegistrar`
+  - [x] `NameWrapper`
 
 ## Solana
 
