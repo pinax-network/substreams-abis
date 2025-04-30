@@ -1050,7 +1050,7 @@ dependencies = [
 
 [[package]]
 name = "substreams-abis"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "anyhow",
  "ethabi 18.0.0",
@@ -1063,9 +1063,9 @@ dependencies = [
 
 [[package]]
 name = "substreams-ethereum"
-version = "0.10.3"
+version = "0.10.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ed50b3e8cc110bc7a8f477c899cc5391d1a1178a5b0c2953e2af6374273a8397"
+checksum = "8cbebe786a62068f91593c89038fbe5ec70c9b784df716e450c52aa01b231f11"
 dependencies = [
  "getrandom 0.2.15",
  "num-bigint",
@@ -1077,9 +1077,9 @@ dependencies = [
 
 [[package]]
 name = "substreams-ethereum-abigen"
-version = "0.10.3"
+version = "0.10.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "736046de7ca79649b462698784c664eb6fabacbef2d8063433a5841435748658"
+checksum = "1abdb13d5c4336d9d16ec31fbf8b4b41edde5f33b489186d7673a1017421b387"
 dependencies = [
  "anyhow",
  "ethabi 17.2.0",
@@ -1094,9 +1094,9 @@ dependencies = [
 
 [[package]]
 name = "substreams-ethereum-core"
-version = "0.10.3"
+version = "0.10.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9e3ef3cf91eed6290b588179a896f3d92c30fe01c20929b51c1a9153d7d71cff"
+checksum = "2bd3dbe2597daba8db0ae15b9a9cb4284236d0f39b4a5ba79c7c14978639613c"
 dependencies = [
  "bigdecimal",
  "ethabi 17.2.0",
@@ -1110,9 +1110,9 @@ dependencies = [
 
 [[package]]
 name = "substreams-ethereum-derive"
-version = "0.10.3"
+version = "0.10.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f5b7fd93261fbe5d49b19353890cb8fe2d3f5d677dda560cb995deb2124679ca"
+checksum = "322330809d485b2926b65136b4b4eb1a9069c0a60275464f8a3c1f35a77f7c77"
 dependencies = [
  "ethabi 17.2.0",
  "heck 0.4.1",
