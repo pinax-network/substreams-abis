@@ -41,6 +41,9 @@ This directory contains standard ABIs for the various blockchains that Substream
   - [x] `NameWrapper`
 - [x] `Seaport`
   - [x] `OrderFulfilled`
+  - [x] `OrderCancelled`
+  - [x] `OrderValidated`
+  - [x] `OrdersMatched`
 
 ## Solana
 
