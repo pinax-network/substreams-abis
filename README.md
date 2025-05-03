@@ -39,6 +39,8 @@ This directory contains standard ABIs for the various blockchains that Substream
   - [x] `PublicResolver`
   - [x] `ReverseRegistrar`
   - [x] `NameWrapper`
+- [x] `Seaport`
+  - [x] `OrderFulfilled`
 
 ## Solana
 
