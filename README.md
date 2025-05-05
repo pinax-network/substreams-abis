@@ -45,6 +45,15 @@ This directory contains standard ABIs for the various blockchains that Substream
   - [x] `OrderValidated`
   - [x] `OrdersMatched`
 
+## NFTs Collections
+
+- [x] Azuki
+- [x] BoredApeYachtClub
+- [x] Doodles
+- [x] LilPudgys
+- [x] MutantApeYachtClub
+- [x] PudgyPenguins
+
 ## Solana
 
 > Solana, Eclipse, Solana Devnet
