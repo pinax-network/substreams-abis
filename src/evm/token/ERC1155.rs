@@ -880,7 +880,7 @@ pub mod functions {
     }
     #[derive(Debug, Clone, PartialEq)]
     pub struct Uri {
-        pub param0: substreams::scalar::BigInt,
+        pub id: substreams::scalar::BigInt,
     }
     impl Uri {
         const METHOD_ID: [u8; 4] = [14u8, 137u8, 52u8, 28u8];
@@ -898,7 +898,7 @@ pub mod functions {
                 .map_err(|e| format!("unable to decode call.input: {:?}", e))?;
             values.reverse();
             Ok(Self {
-                param0: {
+                id: {
                     let mut v = [0 as u8; 32];
                     values
                         .pop()
@@ -915,7 +915,7 @@ pub mod functions {
                 &[
                     ethabi::Token::Uint(
                         ethabi::Uint::from_big_endian(
-                            match self.param0.clone().to_bytes_be() {
+                            match self.id.clone().to_bytes_be() {
                                 (num_bigint::Sign::Plus, bytes) => bytes,
                                 (num_bigint::Sign::NoSign, bytes) => bytes,
                                 (num_bigint::Sign::Minus, _) => {
