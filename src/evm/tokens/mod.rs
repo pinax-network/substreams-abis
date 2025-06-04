@@ -1,5 +1,6 @@
 pub mod aeweth;
 pub mod blendr;
+pub mod cryptopunks;
 pub mod dai;
 pub mod sai;
 pub mod steth;
