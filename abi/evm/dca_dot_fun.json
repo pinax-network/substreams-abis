@@ -3,154 +3,21 @@
         "type": "constructor",
         "inputs": [
             {
-                "name": "dotFunConfig_",
-                "type": "tuple",
-                "internalType": "struct DotFunConfig",
-                "components": [
-                    {
-                        "name": "verifierDotFun",
-                        "type": "address",
-                        "internalType": "address"
-                    },
-                    {
-                        "name": "feeCollector",
-                        "type": "address",
-                        "internalType": "address"
-                    },
-                    {
-                        "name": "protocolFee",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "owner",
-                        "type": "address",
-                        "internalType": "address"
-                    },
-                    {
-                        "name": "minExecutionValue",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "executionVarience",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "aavePool",
-                        "type": "address",
-                        "internalType": "address"
-                    },
-                    {
-                        "name": "timestampTolerance",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    }
-                ]
+                "name": "owner_",
+                "type": "address",
+                "internalType": "address"
             },
             {
-                "name": "args_",
-                "type": "tuple",
-                "internalType": "struct DcaDotFunConfig",
-                "components": [
-                    {
-                        "name": "vaultFactory",
-                        "type": "address",
-                        "internalType": "address"
-                    },
-                    {
-                        "name": "permit2",
-                        "type": "address",
-                        "internalType": "address"
-                    },
-                    {
-                        "name": "wrappedNative",
-                        "type": "address",
-                        "internalType": "address"
-                    },
-                    {
-                        "name": "maxFeedAgeFillOrder",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "maxFeedAgeCreateOrder",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "minOrderFrequencyInterval",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "minSlippage",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "maxSlippage",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "maxScalingFactor",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "yieldSplit",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    }
-                ]
+                "name": "permit2_",
+                "type": "address",
+                "internalType": "address"
             }
         ],
         "stateMutability": "nonpayable"
     },
     {
         "type": "function",
-        "name": "BASIS_POINTS",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
         "name": "DEFAULT_ADMIN_ROLE",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "bytes32",
-                "internalType": "bytes32"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "MAX_PROTOCOL_FEE",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint8",
-                "internalType": "uint8"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
-        "name": "PAUSER_ROLE",
         "inputs": [],
         "outputs": [
             {
@@ -339,19 +206,6 @@
     },
     {
         "type": "function",
-        "name": "executionVarience",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
         "name": "feeCollector",
         "inputs": [],
         "outputs": [
@@ -362,6 +216,34 @@
             }
         ],
         "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "fillOrder",
+        "inputs": [
+            {
+                "name": "encodedData_",
+                "type": "bytes",
+                "internalType": "bytes"
+            },
+            {
+                "name": "callback_",
+                "type": "address",
+                "internalType": "address"
+            },
+            {
+                "name": "recipient_",
+                "type": "address",
+                "internalType": "address"
+            },
+            {
+                "name": "data_",
+                "type": "bytes",
+                "internalType": "bytes"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
     },
     {
         "type": "function",
@@ -393,7 +275,7 @@
         ],
         "outputs": [
             {
-                "name": "",
+                "name": "tokens",
                 "type": "tuple[]",
                 "internalType": "struct OrderTokens[]",
                 "components": [
@@ -439,7 +321,7 @@
         ],
         "outputs": [
             {
-                "name": "",
+                "name": "order",
                 "type": "tuple[]",
                 "internalType": "struct Order[]",
                 "components": [
@@ -474,11 +356,6 @@
                         "internalType": "uint256"
                     },
                     {
-                        "name": "slippage",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
                         "name": "freqInterval",
                         "type": "uint256",
                         "internalType": "uint256"
@@ -499,9 +376,9 @@
                         "internalType": "uint256"
                     },
                     {
-                        "name": "vault",
-                        "type": "address",
-                        "internalType": "address"
+                        "name": "slippage",
+                        "type": "uint16",
+                        "internalType": "uint16"
                     },
                     {
                         "name": "stakeAssetIn",
@@ -512,6 +389,11 @@
                         "name": "stakeAssetOut",
                         "type": "bool",
                         "internalType": "bool"
+                    },
+                    {
+                        "name": "vault",
+                        "type": "address",
+                        "internalType": "address"
                     }
                 ]
             }
@@ -583,7 +465,7 @@
                         "internalType": "uint256"
                     },
                     {
-                        "name": "maxScalingFactor",
+                        "name": "maxScalingInterval",
                         "type": "uint256",
                         "internalType": "uint256"
                     },
@@ -708,19 +590,6 @@
     },
     {
         "type": "function",
-        "name": "minExecutionValue",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "stateMutability": "view"
-    },
-    {
-        "type": "function",
         "name": "orderId",
         "inputs": [],
         "outputs": [
@@ -760,7 +629,20 @@
     },
     {
         "type": "function",
-        "name": "previewFillOrder",
+        "name": "protocolFee",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "quote",
         "inputs": [
             {
                 "name": "orderId_",
@@ -780,45 +662,39 @@
                 "internalType": "bytes"
             },
             {
-                "name": "scalingFactor",
-                "type": "uint256",
-                "internalType": "uint256"
-            },
-            {
-                "name": "fillableAmount",
-                "type": "uint256",
-                "internalType": "uint256"
-            },
-            {
-                "name": "amountOfTokenOut",
-                "type": "uint256",
-                "internalType": "uint256"
-            },
-            {
-                "name": "tokenInPrice",
-                "type": "uint256",
-                "internalType": "uint256"
-            },
-            {
-                "name": "tokenOutPrice",
-                "type": "uint256",
-                "internalType": "uint256"
+                "name": "orderValidationData",
+                "type": "tuple",
+                "internalType": "struct OrderValidation",
+                "components": [
+                    {
+                        "name": "fillableAmount",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "amountOfTokenOut",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "scalingFactor",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "tokenInPrice",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "tokenOutPrice",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    }
+                ]
             }
         ],
         "stateMutability": "nonpayable"
-    },
-    {
-        "type": "function",
-        "name": "protocolFee",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "stateMutability": "view"
     },
     {
         "type": "function",
@@ -871,19 +747,6 @@
     },
     {
         "type": "function",
-        "name": "setExecutionVarience",
-        "inputs": [
-            {
-                "name": "executionVarience_",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "outputs": [],
-        "stateMutability": "nonpayable"
-    },
-    {
-        "type": "function",
         "name": "setFeeCollector",
         "inputs": [
             {
@@ -897,21 +760,13 @@
     },
     {
         "type": "function",
-        "name": "setMaxFeedAgeCreateOrder",
+        "name": "setMaxFeedAge",
         "inputs": [
             {
                 "name": "maxFeedAgeCreateOrder_",
                 "type": "uint256",
                 "internalType": "uint256"
-            }
-        ],
-        "outputs": [],
-        "stateMutability": "nonpayable"
-    },
-    {
-        "type": "function",
-        "name": "setMaxFeedAgeFillOrder",
-        "inputs": [
+            },
             {
                 "name": "maxFeedAgeFillOrder_",
                 "type": "uint256",
@@ -923,23 +778,10 @@
     },
     {
         "type": "function",
-        "name": "setMaxScalingFactor",
+        "name": "setMaxScalingInterval",
         "inputs": [
             {
-                "name": "maxScalingFactor_",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "outputs": [],
-        "stateMutability": "nonpayable"
-    },
-    {
-        "type": "function",
-        "name": "setMaxSlippage",
-        "inputs": [
-            {
-                "name": "maxSlippage_",
+                "name": "maxScalingInterval_",
                 "type": "uint256",
                 "internalType": "uint256"
             }
@@ -953,6 +795,29 @@
         "inputs": [
             {
                 "name": "minExecutionValue_",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "executionVariance_",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "setMinMaxSlippage",
+        "inputs": [
+            {
+                "name": "minSlippage_",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "maxSlippage_",
                 "type": "uint256",
                 "internalType": "uint256"
             }
@@ -975,12 +840,39 @@
     },
     {
         "type": "function",
-        "name": "setMinSlippage",
+        "name": "setNativeToken",
         "inputs": [
             {
-                "name": "minSlippage_",
-                "type": "uint256",
-                "internalType": "uint256"
+                "name": "args_",
+                "type": "tuple",
+                "internalType": "struct NativeTokenArgs",
+                "components": [
+                    {
+                        "name": "wrappedNative",
+                        "type": "address",
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "nativeToken",
+                        "type": "address",
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "nativeTokenFeed",
+                        "type": "bytes32",
+                        "internalType": "bytes32"
+                    },
+                    {
+                        "name": "nativeTokenDecimals",
+                        "type": "uint8",
+                        "internalType": "uint8"
+                    },
+                    {
+                        "name": "nativeTokenIsStakable",
+                        "type": "bool",
+                        "internalType": "bool"
+                    }
+                ]
             }
         ],
         "outputs": [],
@@ -1017,19 +909,26 @@
         "name": "setTokenProps",
         "inputs": [
             {
-                "name": "token_",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
-                "name": "priceFeed_",
-                "type": "bytes32",
-                "internalType": "bytes32"
-            },
-            {
-                "name": "isStakable_",
-                "type": "bool",
-                "internalType": "bool"
+                "name": "tokenArgs_",
+                "type": "tuple[]",
+                "internalType": "struct TokenArgs[]",
+                "components": [
+                    {
+                        "name": "token",
+                        "type": "address",
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "priceFeed",
+                        "type": "bytes32",
+                        "internalType": "bytes32"
+                    },
+                    {
+                        "name": "isStakable",
+                        "type": "bool",
+                        "internalType": "bool"
+                    }
+                ]
             }
         ],
         "outputs": [],
@@ -1040,14 +939,21 @@
         "name": "setTokenState",
         "inputs": [
             {
-                "name": "token_",
-                "type": "address",
-                "internalType": "address"
-            },
-            {
-                "name": "isActive_",
-                "type": "bool",
-                "internalType": "bool"
+                "name": "tokenStateArgs_",
+                "type": "tuple[]",
+                "internalType": "struct TokenStateArgs[]",
+                "components": [
+                    {
+                        "name": "token",
+                        "type": "address",
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "isActive",
+                        "type": "bool",
+                        "internalType": "bool"
+                    }
+                ]
             }
         ],
         "outputs": [],
@@ -1059,6 +965,19 @@
         "inputs": [
             {
                 "name": "vaultFactory_",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "setVerifierDotFun",
+        "inputs": [
+            {
+                "name": "verifierDotFun_",
                 "type": "address",
                 "internalType": "address"
             }
@@ -1148,6 +1067,19 @@
     {
         "type": "function",
         "name": "verifierDotFun",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "wNative",
         "inputs": [],
         "outputs": [
             {
@@ -1451,19 +1383,6 @@
     },
     {
         "type": "event",
-        "name": "SetExecutionVarience",
-        "inputs": [
-            {
-                "name": "executionVarience",
-                "type": "uint256",
-                "indexed": false,
-                "internalType": "uint256"
-            }
-        ],
-        "anonymous": false
-    },
-    {
-        "type": "event",
         "name": "SetFeeCollector",
         "inputs": [
             {
@@ -1477,10 +1396,16 @@
     },
     {
         "type": "event",
-        "name": "SetMaxFeedAgeCreateOrder",
+        "name": "SetMaxFeedAge",
         "inputs": [
             {
-                "name": "maxFeedAge",
+                "name": "maxFeedAgeCreateOrder",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            },
+            {
+                "name": "maxFeedAgeFillOrder",
                 "type": "uint256",
                 "indexed": false,
                 "internalType": "uint256"
@@ -1490,36 +1415,10 @@
     },
     {
         "type": "event",
-        "name": "SetMaxFeedAgeFillOrder",
+        "name": "SetMaxScalingInterval",
         "inputs": [
             {
-                "name": "maxFeedAge",
-                "type": "uint256",
-                "indexed": false,
-                "internalType": "uint256"
-            }
-        ],
-        "anonymous": false
-    },
-    {
-        "type": "event",
-        "name": "SetMaxScalingFactor",
-        "inputs": [
-            {
-                "name": "maxScalingFactor",
-                "type": "uint256",
-                "indexed": false,
-                "internalType": "uint256"
-            }
-        ],
-        "anonymous": false
-    },
-    {
-        "type": "event",
-        "name": "SetMaxSlippage",
-        "inputs": [
-            {
-                "name": "slippageMax",
+                "name": "maxScalingInterval",
                 "type": "uint256",
                 "indexed": false,
                 "internalType": "uint256"
@@ -1533,6 +1432,31 @@
         "inputs": [
             {
                 "name": "minExecutionValue",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            },
+            {
+                "name": "executionVariance",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "SetMinMaxSlippage",
+        "inputs": [
+            {
+                "name": "slippageMin",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            },
+            {
+                "name": "slippageMax",
                 "type": "uint256",
                 "indexed": false,
                 "internalType": "uint256"
@@ -1555,13 +1479,37 @@
     },
     {
         "type": "event",
-        "name": "SetMinSlippage",
+        "name": "SetNativeToken",
         "inputs": [
             {
-                "name": "slippageMin",
-                "type": "uint256",
+                "name": "wrappedNative",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "nativeToken",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "nativeTokenFeed",
+                "type": "bytes32",
+                "indexed": true,
+                "internalType": "bytes32"
+            },
+            {
+                "name": "nativeTokenDecimals",
+                "type": "uint8",
                 "indexed": false,
-                "internalType": "uint256"
+                "internalType": "uint8"
+            },
+            {
+                "name": "nativeTokenIsStakable",
+                "type": "bool",
+                "indexed": false,
+                "internalType": "bool"
             }
         ],
         "anonymous": false
@@ -1675,6 +1623,19 @@
     },
     {
         "type": "event",
+        "name": "SetVerifierDotFun",
+        "inputs": [
+            {
+                "name": "verifierDotFun",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
         "name": "SetYieldSplit",
         "inputs": [
             {
@@ -1685,11 +1646,6 @@
             }
         ],
         "anonymous": false
-    },
-    {
-        "type": "error",
-        "name": "AavePoolAlreadySet",
-        "inputs": []
     },
     {
         "type": "error",
@@ -1734,24 +1690,13 @@
     },
     {
         "type": "error",
-        "name": "FillOrderPaused",
+        "name": "FillOrderCallbackFailed",
         "inputs": []
     },
     {
         "type": "error",
-        "name": "FillRequirementsNotMet",
-        "inputs": [
-            {
-                "name": "provided",
-                "type": "uint256",
-                "internalType": "uint256"
-            },
-            {
-                "name": "required",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ]
+        "name": "FillOrderPaused",
+        "inputs": []
     },
     {
         "type": "error",
@@ -1770,7 +1715,7 @@
     },
     {
         "type": "error",
-        "name": "InvalidScalingFactor",
+        "name": "InvalidScalingInterval",
         "inputs": []
     },
     {
@@ -1781,6 +1726,11 @@
     {
         "type": "error",
         "name": "InvalidTokenOutAmount",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "InvalidYieldSplit",
         "inputs": []
     },
     {
@@ -1865,6 +1815,22 @@
         "type": "error",
         "name": "RepeatsIsZero",
         "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "SafeCastOverflowedUintDowncast",
+        "inputs": [
+            {
+                "name": "bits",
+                "type": "uint8",
+                "internalType": "uint8"
+            },
+            {
+                "name": "value",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ]
     },
     {
         "type": "error",
