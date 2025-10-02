@@ -16,10 +16,12 @@
                 "type": "address"
             },
             {
+                "name": "extraData",
                 "type": "uint256"
             }
         ],
         "name": "PairCreated",
+        "anonymous": false,
         "type": "event"
     }
 ]
