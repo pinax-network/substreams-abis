@@ -13,7 +13,8 @@ fn main() -> Result<()> {
         let json_path = entry.path();
 
         // Only process `.json` files
-        if json_path.is_file() && json_path.extension().and_then(|ext| ext.to_str()) == Some("json") {
+        if json_path.is_file() && json_path.extension().and_then(|ext| ext.to_str()) == Some("json")
+        {
             // Convert the file stem to lowercase
             let contract_name = json_path
                 .file_stem()

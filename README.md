@@ -54,19 +54,10 @@ This directory contains standard ABIs for the various blockchains that Substream
 - [x] MutantApeYachtClub
 - [x] PudgyPenguins
 
-## Solana
+## Tron EVM
 
-> Solana, Eclipse, Solana Devnet
-
-- [ ] `spl-token`
-- [ ] `spl-memo`
-
-## Antelope
-
-> EOS, WAX, Telos, Ultra,...
-
-- [ ] `eosio.token`
-- [ ] `eosio.system`
+- [x] SunSwap
+- [x] JustSwap
 
 ## How to contribute?
 
