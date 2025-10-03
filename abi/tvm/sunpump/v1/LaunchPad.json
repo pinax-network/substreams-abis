@@ -1,0 +1,234 @@
+[
+    {
+        "inputs": [
+            {
+                "name": "token",
+                "type": "address"
+            }
+        ],
+        "name": "LaunchPending",
+        "anonymous": false,
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "indexed": true,
+                "name": "oldLauncher",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "name": "newLauncher",
+                "type": "address"
+            }
+        ],
+        "name": "LauncherChanged",
+        "anonymous": false,
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "name": "oldFee",
+                "type": "uint256"
+            },
+            {
+                "name": "newFee",
+                "type": "uint256"
+            }
+        ],
+        "name": "MinTxFeeSet",
+        "anonymous": false,
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "name": "oldFee",
+                "type": "uint256"
+            },
+            {
+                "name": "newFee",
+                "type": "uint256"
+            }
+        ],
+        "name": "MintFeeSet",
+        "anonymous": false,
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "indexed": true,
+                "name": "oldOperator",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "name": "newOperator",
+                "type": "address"
+            }
+        ],
+        "name": "OperatorChanged",
+        "anonymous": false,
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "indexed": true,
+                "name": "oldOwner",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "OwnerChanged",
+        "anonymous": false,
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "indexed": true,
+                "name": "oldPendingOwner",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "name": "newPendingOwner",
+                "type": "address"
+            }
+        ],
+        "name": "PendingOwnerSet",
+        "anonymous": false,
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "name": "oldFee",
+                "type": "uint256"
+            },
+            {
+                "name": "newFee",
+                "type": "uint256"
+            }
+        ],
+        "name": "PurchaseFeeSet",
+        "anonymous": false,
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "name": "oldFee",
+                "type": "uint256"
+            },
+            {
+                "name": "newFee",
+                "type": "uint256"
+            }
+        ],
+        "name": "SaleFeeSet",
+        "anonymous": false,
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "name": "tokenAddress",
+                "type": "address"
+            },
+            {
+                "name": "tokenIndex",
+                "type": "uint256"
+            },
+            {
+                "name": "creator",
+                "type": "address"
+            }
+        ],
+        "name": "TokenCreate",
+        "anonymous": false,
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "indexed": true,
+                "name": "token",
+                "type": "address"
+            }
+        ],
+        "name": "TokenLaunched",
+        "anonymous": false,
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "indexed": true,
+                "name": "token",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "name": "buyer",
+                "type": "address"
+            },
+            {
+                "name": "trxAmount",
+                "type": "uint256"
+            },
+            {
+                "name": "fee",
+                "type": "uint256"
+            },
+            {
+                "name": "tokenAmount",
+                "type": "uint256"
+            },
+            {
+                "name": "tokenReserve",
+                "type": "uint256"
+            }
+        ],
+        "name": "TokenPurchased",
+        "anonymous": false,
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "indexed": true,
+                "name": "token",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "name": "seller",
+                "type": "address"
+            },
+            {
+                "name": "trxAmount",
+                "type": "uint256"
+            },
+            {
+                "name": "fee",
+                "type": "uint256"
+            },
+            {
+                "name": "tokenAmount",
+                "type": "uint256"
+            }
+        ],
+        "name": "TokenSold",
+        "anonymous": false,
+        "type": "event"
+    }
+]
