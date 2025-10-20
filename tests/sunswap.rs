@@ -13,7 +13,7 @@ mod tests {
         //
         // According to the ABI, PairCreated has:
         // - token0 (indexed) -> should be in topic1
-        // - token1 (indexed) -> should be in topic2  
+        // - token1 (indexed) -> should be in topic2
         // - pair (not indexed) -> should be in data
         // - extraData (not indexed) -> should be in data
         //
