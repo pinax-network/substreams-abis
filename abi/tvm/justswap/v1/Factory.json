@@ -1,0 +1,19 @@
+[
+    {
+        "inputs": [
+            {
+                "indexed": true,
+                "name": "token",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "name": "exchange",
+                "type": "address"
+            }
+        ],
+        "name": "NewExchange",
+        "anonymous": false,
+        "type": "event"
+    }
+]

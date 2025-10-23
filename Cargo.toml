@@ -1,6 +1,6 @@
 [package]
 name = "substreams-abis"
-version = "0.5.1"
+version = "0.5.2"
 description = "Substreams ABIs"
 license = "MIT"
 edition = "2021"
@@ -11,7 +11,7 @@ crate-type = ["rlib"]
 
 [dependencies]
 ethabi = "18.0"
-substreams = "0.6.2"
+substreams = "0.6.4"
 substreams-ethereum = "0.10.6"
 num-bigint = "0.4"
 
