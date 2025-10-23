@@ -1,9 +1,9 @@
 #[cfg(test)]
 mod tests {
-    use substreams_abis::tvm::sunswap::v2::factory::events::PairCreated;
-    use substreams_ethereum::pb::eth::v2::Log;
     use substreams::hex;
     use substreams::scalar::BigInt;
+    use substreams_abis::tvm::sunswap::v2::factory::events::PairCreated;
+    use substreams_ethereum::pb::eth::v2::Log;
 
     #[test]
     fn test_sunswap_factory_pair_created() {
@@ -38,8 +38,14 @@ mod tests {
 
         match PairCreated::decode(&log) {
             Ok(event) => {
-                assert_eq!(event.token0, hex!("891cdb91d149f23b1a45d9c5ca78a88d0cb44c18"));
-                assert_eq!(event.token1, hex!("a614f803b6fd780986a42c78ec9c7f77e6ded13c"));
+                assert_eq!(
+                    event.token0,
+                    hex!("891cdb91d149f23b1a45d9c5ca78a88d0cb44c18")
+                );
+                assert_eq!(
+                    event.token1,
+                    hex!("a614f803b6fd780986a42c78ec9c7f77e6ded13c")
+                );
                 assert_eq!(event.pair, hex!("3a10321a4e97a64d9376af42ec07d5fa50294b35"));
                 assert_eq!(event.extra_data, BigInt::from(1u64));
             }
@@ -67,10 +73,17 @@ mod tests {
 
         // First check if it matches the expected log format
         let matches = PairCreated::match_log(&log);
-        assert!(!matches, "Log should not match because it only has 1 topic instead of 3");
-        
+        assert!(
+            !matches,
+            "Log should not match because it only has 1 topic instead of 3"
+        );
+
         // The log also has 128 bytes of data instead of 64
         assert_eq!(log.data.len(), 128);
-        assert_ne!(log.data.len(), 64, "Data length doesn't match ABI expectation");
+        assert_ne!(
+            log.data.len(),
+            64,
+            "Data length doesn't match ABI expectation"
+        );
     }
 }

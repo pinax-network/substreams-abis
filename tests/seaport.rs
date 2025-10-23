@@ -41,9 +41,18 @@ mod tests {
                 let amount_offerer = event.consideration[0].3.clone();
                 let amount_fee = event.consideration[1].3.clone();
                 let amount_collection = event.consideration[2].3.clone();
-                assert_eq!(amount_offerer, BigInt::try_from("4914000000000000".to_string()).unwrap());
-                assert_eq!(amount_fee, BigInt::try_from("26000000000000".to_string()).unwrap());
-                assert_eq!(amount_collection, BigInt::try_from("260000000000000".to_string()).unwrap());
+                assert_eq!(
+                    amount_offerer,
+                    BigInt::try_from("4914000000000000".to_string()).unwrap()
+                );
+                assert_eq!(
+                    amount_fee,
+                    BigInt::try_from("26000000000000".to_string()).unwrap()
+                );
+                assert_eq!(
+                    amount_collection,
+                    BigInt::try_from("260000000000000".to_string()).unwrap()
+                );
             }
             Err(e) => {
                 panic!("Error decoding event: {:?}", e);
@@ -72,8 +81,14 @@ mod tests {
                 // consideration
                 let amount_offerer = event.consideration[0].3.clone();
                 let amount_fee = event.consideration[1].3.clone();
-                assert_eq!(amount_offerer, BigInt::try_from("6965000000000000".to_string()).unwrap());
-                assert_eq!(amount_fee, BigInt::try_from("35000000000000".to_string()).unwrap());
+                assert_eq!(
+                    amount_offerer,
+                    BigInt::try_from("6965000000000000".to_string()).unwrap()
+                );
+                assert_eq!(
+                    amount_fee,
+                    BigInt::try_from("35000000000000".to_string()).unwrap()
+                );
             }
             Err(e) => {
                 panic!("Error decoding event: {:?}", e);

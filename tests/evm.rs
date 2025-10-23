@@ -1,9 +1,9 @@
 #[cfg(test)]
 mod tests {
     use std::str::FromStr;
+    use substreams::{hex, scalar::BigInt};
     use substreams_abis::evm::token::erc20::events::Transfer;
     use substreams_ethereum::pb::eth::v2::Log;
-    use substreams::{hex, scalar::BigInt};
 
     #[test]
     fn test_erc20_transfer() {
@@ -26,8 +26,14 @@ mod tests {
 
         match Transfer::decode(&log) {
             Ok(transfer) => {
-                assert_eq!(transfer.from, hex!("6D1D1ebe7dA598194293784252659e862d55b52c"));
-                assert_eq!(transfer.to,   hex!("c7bBeC68d12a0d1830360F8Ec58fA599bA1b0e9b"));
+                assert_eq!(
+                    transfer.from,
+                    hex!("6D1D1ebe7dA598194293784252659e862d55b52c")
+                );
+                assert_eq!(
+                    transfer.to,
+                    hex!("c7bBeC68d12a0d1830360F8Ec58fA599bA1b0e9b")
+                );
                 assert_eq!(transfer.value, BigInt::from_str("3400000000").unwrap());
             }
             Err(e) => {

@@ -2,11 +2,11 @@
 mod tests {
     use std::str::FromStr;
 
-    use substreams_abis::evm::uniswap::v2::pair::events::Sync;
-    use substreams_abis::evm::uniswap::v2::factory::events::PairCreated;
-    use substreams_ethereum::pb::eth::v2::Log;
     use substreams::hex;
     use substreams::scalar::BigInt;
+    use substreams_abis::evm::uniswap::v2::factory::events::PairCreated;
+    use substreams_abis::evm::uniswap::v2::pair::events::Sync;
+    use substreams_ethereum::pb::eth::v2::Log;
 
     #[test]
     fn test_uniswap_pair() {
@@ -27,7 +27,10 @@ mod tests {
 
         match Sync::decode(&log) {
             Ok(event) => {
-                assert_eq!(event.reserve0, BigInt::from_str("1149216704419334").unwrap());
+                assert_eq!(
+                    event.reserve0,
+                    BigInt::from_str("1149216704419334").unwrap()
+                );
                 assert_eq!(event.reserve1, BigInt::from_str("1935417248994").unwrap());
             }
             Err(e) => {
