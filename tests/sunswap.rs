@@ -86,4 +86,54 @@ mod tests {
             "Data length doesn't match ABI expectation"
         );
     }
+
+    #[test]
+    fn test_sunswap_factory_pair_created_tx_bb08b5a3() {
+        // Test data from transaction: bb08b5a3f581447aa326aa8db837a9c87c0f64950b1c6ed4471faf2dffcd5742
+        // https://tronscan.org/#/transaction/bb08b5a3f581447aa326aa8db837a9c87c0f64950b1c6ed4471faf2dffcd5742/event-logs
+        // topic0: 0d3648bd0f6ba80134a33ba9275ac585d9d315f0ad8355cddefde31afa28d0e9
+        // data: 0x00000000000000000000000048c125e0d3c626842bf7180c85e79f97ae524e91000000000000000000000000a614f803b6fd780986a42c78ec9c7f77e6ded13c00000000000000000000000062cd74b7d68d6914ca7e3aa4720d53588f4c18ac000000000000000000000000000000000000000000000000000000000000001f
+        //
+        // According to the ABI, PairCreated has:
+        // - token0 (indexed) -> should be in topic1
+        // - token1 (indexed) -> should be in topic2
+        // - pair (not indexed) -> should be in data
+        // - extraData (not indexed) -> should be in data
+        //
+        // Splitting the 128 bytes of data:
+        // - First 32 bytes (token0) -> topic1
+        // - Second 32 bytes (token1) -> topic2
+        // - Third 32 bytes (pair) -> data
+        // - Fourth 32 bytes (extraData) -> data
+        let log = Log {
+            topics: vec![
+                hex!("0d3648bd0f6ba80134a33ba9275ac585d9d315f0ad8355cddefde31afa28d0e9").to_vec(), // topic0 (event signature)
+                hex!("00000000000000000000000048c125e0d3c626842bf7180c85e79f97ae524e91").to_vec(), // topic1 (token0)
+                hex!("000000000000000000000000a614f803b6fd780986a42c78ec9c7f77e6ded13c").to_vec(), // topic2 (token1)
+            ],
+            data: hex!("00000000000000000000000062cd74b7d68d6914ca7e3aa4720d53588f4c18ac000000000000000000000000000000000000000000000000000000000000001f").to_vec(), // pair + extraData (64 bytes)
+            address: vec![],
+            block_index: 0,
+            index: 0,
+            ordinal: 0,
+        };
+
+        match PairCreated::decode(&log) {
+            Ok(event) => {
+                assert_eq!(
+                    event.token0,
+                    hex!("48c125e0d3c626842bf7180c85e79f97ae524e91")
+                );
+                assert_eq!(
+                    event.token1,
+                    hex!("a614f803b6fd780986a42c78ec9c7f77e6ded13c")
+                );
+                assert_eq!(event.pair, hex!("62cd74b7d68d6914ca7e3aa4720d53588f4c18ac"));
+                assert_eq!(event.extra_data, BigInt::from(31u64));
+            }
+            Err(e) => {
+                panic!("Error decoding PairCreated event: {:?}", e);
+            }
+        }
+    }
 }
