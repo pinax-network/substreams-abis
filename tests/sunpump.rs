@@ -6,6 +6,11 @@ mod tests {
     use substreams_ethereum::pb::eth::v2::Log;
     use substreams_ethereum::Event;
 
+    // Topic ID verification:
+    // Event signature: TokenCreateV2(address,address,uint256,uint256,string,string)
+    // keccak256 hash: 0x7d3561bb6c41a7796f0b6a9b463b4be53333e86339005c596fd4e5f53c9cc8f5
+    // This matches TokenCreateV2::TOPIC_ID constant defined in the generated code
+
     #[test]
     fn test_sunpump_token_create_decode_only() {
         // This test demonstrates that decode() only looks at log.data and ignores topics
@@ -72,8 +77,9 @@ mod tests {
     #[test]
     fn test_sunpump_token_create_v2_match_and_decode_success() {
         // This test demonstrates match_and_decode() working correctly with the RIGHT topic
-        // TokenCreateV2 topic should be: 7d3561bb6c41a7796f0b6a9b463b4be53333e86339005c596fd4e5f53c9cc8f5
-        // (keccak256 of "TokenCreateV2(address,address,uint256,uint256,string,string)")
+        // Event signature: TokenCreateV2(address,address,uint256,uint256,string,string)
+        // keccak256(signature) = 0x7d3561bb6c41a7796f0b6a9b463b4be53333e86339005c596fd4e5f53c9cc8f5
+        // This matches the TOPIC_ID constant in TokenCreateV2 event definition
 
         let log = Log {
             topics: vec![
