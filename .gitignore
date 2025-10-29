@@ -5,3 +5,4 @@ replay.log
 out/
 state.yaml
 .DS_Store
+node_modules

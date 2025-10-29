@@ -1,0 +1,24 @@
+[
+    {
+        "inputs": [
+            {
+                "indexed": true,
+                "name": "tokenAddress",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "tokenIndex",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "name": "creator",
+                "type": "address"
+            }
+        ],
+        "name": "TokenCreate",
+        "anonymous": false,
+        "type": "event"
+    }
+]

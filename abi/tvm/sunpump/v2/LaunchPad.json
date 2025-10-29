@@ -1,0 +1,39 @@
+[
+    {
+        "anonymous": false,
+        "name": "TokenCreate",
+        "type": "event",
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "tokenAddress",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "creator",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "tokenIndex",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "initialSupply",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "name",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "name": "symbol",
+                "type": "string"
+            }
+        ]
+    }
+]
