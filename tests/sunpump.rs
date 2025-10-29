@@ -2,7 +2,7 @@
 mod tests {
     use substreams::scalar::BigInt;
     use substreams::{hex, Hex};
-    use substreams_abis::tvm::sunpump::legacy::launchpad::events::TokenCreateUnknown;
+    use substreams_abis::tvm::sunpump::legacy::launchpad::events::TokenCreate as TokenCreateLegacy;
     use substreams_abis::tvm::sunpump::v1::launchpadproxy::events::TokenCreate;
     use substreams_ethereum::pb::eth::v2::Log;
     use substreams_ethereum::Event;
@@ -54,7 +54,7 @@ mod tests {
     // This matches TokenCreateV2::TOPIC_ID constant defined in the generated code
 
     #[test]
-    fn test_sunpump_token_create_decode_only_legacy() {
+    fn test_sunpump_token_create_legacy() {
         // This test demonstrates that decode() only looks at log.data and ignores topics
         // Note: The topic here (16624d4e...) does NOT match TokenCreateLegacy's actual topic (7d3561bb...)
         // but decode() still works because it doesn't validate the topic
@@ -85,17 +85,17 @@ mod tests {
         };
 
         // decode() works even with wrong topic because it only checks log.data
-        match TokenCreateUnknown::decode(&log) {
-            Ok(event) => {
+        match TokenCreateLegacy::match_and_decode(&log) {
+            Some(event) => {
                 assert_eq!(
                     event.token_address,
                     hex!("afa761010e3d6180661ff902a70a265733d3b1f6"),
                     "Token address should match"
                 );
                 assert_eq!(
-                    event.token_index,
-                    BigInt::from(100),
-                    "Token index should be 100"
+                    event.nft_threshold,
+                    BigInt::from(10000000),
+                    "NFT threshold should be 10000000"
                 );
                 assert_eq!(
                     event.creator,
@@ -103,15 +103,15 @@ mod tests {
                     "Creator address should match"
                 );
                 assert_eq!(
-                    event.initial_supply,
-                    BigInt::from(10_000_000),
-                    "Initial supply should be 10,000,000"
+                    event.nft_max_supply,
+                    BigInt::from(100),
+                    "NFT max supply should be 100"
                 );
                 assert_eq!(event.name, "Tron_Bull", "Name should match");
                 assert_eq!(event.symbol, "BULL", "Symbol should match");
             }
-            Err(e) => {
-                panic!("Error decoding TokenCreate event: {:?}", e);
+            None => {
+                panic!("Error decoding TokenCreate event");
             }
         }
     }
