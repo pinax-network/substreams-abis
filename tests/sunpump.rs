@@ -1,10 +1,52 @@
 #[cfg(test)]
 mod tests {
-    use substreams::hex;
     use substreams::scalar::BigInt;
-    use substreams_abis::tvm::sunpump::v2::launchpad::events::TokenCreate as TokenCreateV2;
+    use substreams::{hex, Hex};
+    use substreams_abis::tvm::sunpump::legacy::launchpad::events::TokenCreateUnknown;
+    use substreams_abis::tvm::sunpump::v1::launchpadproxy::events::TokenCreate;
     use substreams_ethereum::pb::eth::v2::Log;
     use substreams_ethereum::Event;
+
+    #[test]
+    fn test_sunpump_token_create() {
+        let log = Log {
+            topics: vec![
+                hex!("1ff0a01c8968e3551472812164f233abb579247de887db8cbb18281c149bee7a").to_vec(),
+            ],
+            data: hex!(
+                "000000000000000000000000b797fca18217abf9ca6ab7277b2c958c44831a59000000000000000000000000000000000000000000000000000000000001919c000000000000000000000000f8fda7b7996f5459676f90abc13d434290ed55df"
+            )
+            .to_vec(),
+            address: vec![],
+            block_index: 0,
+            index: 0,
+            ordinal: 0,
+        };
+
+        // decode() works even with wrong topic because it only checks log.data
+        match TokenCreate::match_and_decode(&log) {
+            Some(event) => {
+                assert_eq!(
+                    Hex::encode(event.token_address),
+                    "b797fca18217abf9ca6ab7277b2c958c44831a59",
+                    "Token address should match"
+                );
+                assert_eq!(
+                    event.token_index,
+                    BigInt::from(102812),
+                    "Token index should be 102812"
+                );
+                assert_eq!(
+                    Hex::encode(event.creator),
+                    "f8fda7b7996f5459676f90abc13d434290ed55df",
+                    "Creator address should match"
+                );
+            }
+            None => {
+                panic!("Error decoding TokenCreate event");
+            }
+        }
+    }
 
     // Topic ID verification:
     // Event signature: TokenCreateV2(address,address,uint256,uint256,string,string)
@@ -12,9 +54,9 @@ mod tests {
     // This matches TokenCreateV2::TOPIC_ID constant defined in the generated code
 
     #[test]
-    fn test_sunpump_token_create_decode_only() {
+    fn test_sunpump_token_create_decode_only_legacy() {
         // This test demonstrates that decode() only looks at log.data and ignores topics
-        // Note: The topic here (16624d4e...) does NOT match TokenCreateV2's actual topic (7d3561bb...)
+        // Note: The topic here (16624d4e...) does NOT match TokenCreateLegacy's actual topic (7d3561bb...)
         // but decode() still works because it doesn't validate the topic
         //
         // log: trx = bccd5365674cd7b193adbbb37b247bd84d41ae5c73be98ac3fc4150c2a1369fb
@@ -43,7 +85,7 @@ mod tests {
         };
 
         // decode() works even with wrong topic because it only checks log.data
-        match TokenCreateV2::decode(&log) {
+        match TokenCreateUnknown::decode(&log) {
             Ok(event) => {
                 assert_eq!(
                     event.token_address,
@@ -71,33 +113,6 @@ mod tests {
             Err(e) => {
                 panic!("Error decoding TokenCreate event: {:?}", e);
             }
-        }
-    }
-
-    #[test]
-    fn test_sunpump_token_create_v2_match_and_decode_success() {
-        // This test demonstrates match_and_decode() working correctly with the RIGHT topic
-        // Event signature: TokenCreateV2(address,address,uint256,uint256,string,string)
-        // keccak256(signature) = 0x7d3561bb6c41a7796f0b6a9b463b4be53333e86339005c596fd4e5f53c9cc8f5
-        // This matches the TOPIC_ID constant in TokenCreateV2 event definition
-
-        let log = Log {
-            topics: vec![
-                hex!("7d3561bb6c41a7796f0b6a9b463b4be53333e86339005c596fd4e5f53c9cc8f5").to_vec(), // CORRECT TokenCreateV2 topic
-            ],
-            data: hex!(
-                "000000000000000000000000afa761010e3d6180661ff902a70a265733d3b1f600000000000000000000000092ad9f5f8d9750e03b310bbc2712121d8785c5360000000000000000000000000000000000000000000000000000000000000064000000000000000000000000000000000000000000000000000000000098968000000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000954726f6e5f42756c6c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000442554c4c00000000000000000000000000000000000000000000000000000000"
-            )
-            .to_vec(),
-            address: vec![],
-            block_index: 123,
-            index: 0,
-            ordinal: 0,
-        };
-
-        // match_and_decode() should work now because topic matches
-        if TokenCreateV2::match_and_decode(&log).is_none() {
-            panic!("match_and_decode should have succeeded with correct topic");
         }
     }
 
