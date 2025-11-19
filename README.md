@@ -25,6 +25,10 @@ This directory contains standard ABIs for the various blockchains that Substream
 
 ## EVM Contracts
 
+- [x] `Balancer`
+- [x] `CurveFi`
+- [x] `Bancor`
+- [x] `Uniswap V1`
 - [x] `Uniswap V2`
   - [x] `Pair`
   - [x] `Factory`

@@ -1,3 +1,6 @@
+pub mod balancer;
+pub mod bancor;
+pub mod curvefi;
 pub mod dca_dot_fun;
 pub mod ens;
 pub mod nfts;
