@@ -1,5 +1,6 @@
 pub mod balancer;
 pub mod bancor;
+pub mod cow;
 pub mod curvefi;
 pub mod dca_dot_fun;
 pub mod ens;
