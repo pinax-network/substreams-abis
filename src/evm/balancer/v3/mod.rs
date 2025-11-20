@@ -1,2 +1,2 @@
 pub mod stablepool;
-pub mod vaults;
+pub mod vault;
