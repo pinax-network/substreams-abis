@@ -739,7 +739,7 @@ pub mod events {
         pub token0: Vec<u8>,
         pub token1: Vec<u8>,
         pub pair: Vec<u8>,
-        pub param3: substreams::scalar::BigInt,
+        pub extra_data: substreams::scalar::BigInt,
     }
     impl PairCreated {
         const TOPIC_ID: [u8; 32] = [
@@ -835,7 +835,7 @@ pub mod events {
                     .expect(INTERNAL_ERR)
                     .as_bytes()
                     .to_vec(),
-                param3: {
+                extra_data: {
                     let mut v = [0 as u8; 32];
                     values
                         .pop()

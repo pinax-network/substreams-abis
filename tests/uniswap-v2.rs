@@ -2,11 +2,11 @@
 mod tests {
     use substreams::hex;
     use substreams::scalar::BigInt;
-    use substreams_abis::tvm::sunswap::v2::factory::events::PairCreated;
+    use substreams_abis::evm::uniswap::v2::factory::events::PairCreated;
     use substreams_ethereum::pb::eth::v2::Log;
 
     #[test]
-    fn test_sunswap_factory_pair_created() {
+    fn test_uniswap_v2_factory_pair_created() {
         // Test data from issue
         // topic0: 0d3648bd0f6ba80134a33ba9275ac585d9d315f0ad8355cddefde31afa28d0e9
         // data: 0x000000000000000000000000891cdb91d149f23b1a45d9c5ca78a88d0cb44c18000000000000000000000000a614f803b6fd780986a42c78ec9c7f77e6ded13c0000000000000000000000003a10321a4e97a64d9376af42ec07d5fa50294b350000000000000000000000000000000000000000000000000000000000000001
@@ -56,7 +56,7 @@ mod tests {
     }
 
     #[test]
-    fn test_sunswap_factory_pair_created_raw_data() {
+    fn test_uniswap_v2_factory_pair_created_raw_data() {
         // This test uses the data exactly as provided in the issue
         // (all 128 bytes in data field, only topic0)
         // This should fail validation since the ABI expects indexed parameters
@@ -88,7 +88,7 @@ mod tests {
     }
 
     #[test]
-    fn test_sunswap_factory_pair_created_tx_bb08b5a3() {
+    fn test_uniswap_v2_factory_pair_created_tx_bb08b5a3() {
         // Test data from transaction: bb08b5a3f581447aa326aa8db837a9c87c0f64950b1c6ed4471faf2dffcd5742
         // https://tronscan.org/#/transaction/bb08b5a3f581447aa326aa8db837a9c87c0f64950b1c6ed4471faf2dffcd5742/event-logs
         // topic0: 0d3648bd0f6ba80134a33ba9275ac585d9d315f0ad8355cddefde31afa28d0e9
