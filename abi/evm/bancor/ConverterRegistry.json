@@ -1,22 +1,10 @@
 [
     {
-        "inputs": [
-            {
-                "internalType": "contract IContractRegistry",
-                "name": "_registry",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    {
         "anonymous": false,
         "inputs": [
             {
                 "indexed": true,
-                "internalType": "contract IConverterAnchor",
-                "name": "_anchor",
+                "name": "anchor",
                 "type": "address"
             }
         ],
@@ -28,8 +16,7 @@
         "inputs": [
             {
                 "indexed": true,
-                "internalType": "contract IConverterAnchor",
-                "name": "_anchor",
+                "name": "anchor",
                 "type": "address"
             }
         ],
@@ -41,14 +28,12 @@
         "inputs": [
             {
                 "indexed": true,
-                "internalType": "contract IERC20Token",
-                "name": "_convertibleToken",
+                "name": "convertibleToken",
                 "type": "address"
             },
             {
                 "indexed": true,
-                "internalType": "contract IConverterAnchor",
-                "name": "_smartToken",
+                "name": "smartToken",
                 "type": "address"
             }
         ],
@@ -60,14 +45,12 @@
         "inputs": [
             {
                 "indexed": true,
-                "internalType": "contract IERC20Token",
-                "name": "_convertibleToken",
+                "name": "convertibleToken",
                 "type": "address"
             },
             {
                 "indexed": true,
-                "internalType": "contract IConverterAnchor",
-                "name": "_smartToken",
+                "name": "smartToken",
                 "type": "address"
             }
         ],
@@ -79,8 +62,7 @@
         "inputs": [
             {
                 "indexed": true,
-                "internalType": "contract IConverterAnchor",
-                "name": "_liquidityPool",
+                "name": "liquidityPool",
                 "type": "address"
             }
         ],
@@ -92,8 +74,7 @@
         "inputs": [
             {
                 "indexed": true,
-                "internalType": "contract IConverterAnchor",
-                "name": "_liquidityPool",
+                "name": "liquidityPool",
                 "type": "address"
             }
         ],
@@ -105,14 +86,12 @@
         "inputs": [
             {
                 "indexed": true,
-                "internalType": "address",
-                "name": "_prevOwner",
+                "name": "prevOwner",
                 "type": "address"
             },
             {
                 "indexed": true,
-                "internalType": "address",
-                "name": "_newOwner",
+                "name": "newOwner",
                 "type": "address"
             }
         ],
@@ -124,8 +103,7 @@
         "inputs": [
             {
                 "indexed": true,
-                "internalType": "contract IConverterAnchor",
-                "name": "_smartToken",
+                "name": "smartToken",
                 "type": "address"
             }
         ],
@@ -137,8 +115,7 @@
         "inputs": [
             {
                 "indexed": true,
-                "internalType": "contract IConverterAnchor",
-                "name": "_smartToken",
+                "name": "smartToken",
                 "type": "address"
             }
         ],

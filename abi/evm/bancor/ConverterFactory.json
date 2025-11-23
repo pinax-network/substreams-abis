@@ -1,0 +1,41 @@
+[
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "name": "type",
+                "type": "uint16"
+            },
+            {
+                "indexed": true,
+                "name": "converter",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "name": "owner",
+                "type": "address"
+            }
+        ],
+        "name": "NewConverter",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "name": "prevOwner",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "OwnerUpdate",
+        "type": "event"
+    }
+]
