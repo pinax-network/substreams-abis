@@ -4,7 +4,7 @@
         "inputs": [
             {
                 "indexed": true,
-                "name": "type",
+                "name": "converterType",
                 "type": "uint16"
             },
             {
