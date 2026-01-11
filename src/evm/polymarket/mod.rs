@@ -1,6 +1,7 @@
 pub mod conditionaltokens;
 pub mod ctfexchange;
 pub mod feemodule;
+pub mod fixedproductmarketmaker;
 pub mod negriskadapter;
 pub mod negriskctfexchange;
 pub mod relayhub;
