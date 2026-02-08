@@ -1,6 +1,6 @@
 [package]
 name = "substreams-abis"
-version = "0.7.19"
+version = "0.7.20"
 description = "Substreams ABIs"
 license = "MIT"
 edition = "2021"
@@ -10,13 +10,13 @@ authors = ["Denis <denis@pinax.network>"]
 crate-type = ["rlib"]
 
 [dependencies]
-ethabi = "18.0"
-substreams = "0.7.0"
+ethabi = "17.2.0"
+substreams = "0.7.6"
 substreams-ethereum = "0.11.1"
 num-bigint = "0.4"
 
 [build-dependencies]
 prost-build = "0.14.1"
 anyhow = "1"
-substreams-ethereum = "0.11"
+substreams-ethereum = "0.11.1"
 walkdir = "2"
