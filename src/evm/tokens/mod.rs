@@ -5,8 +5,6 @@ pub mod dai;
 pub mod sai;
 pub mod steth;
 pub mod usdc;
-pub mod usdc_avalanche;
 pub mod usdt;
-pub mod usdt_avalanche;
 pub mod wbtc;
 pub mod weth;

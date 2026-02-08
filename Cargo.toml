@@ -1,6 +1,6 @@
 [package]
 name = "substreams-abis"
-version = "0.7.21"
+version = "0.8.0"
 description = "Substreams ABIs"
 license = "MIT"
 edition = "2021"
