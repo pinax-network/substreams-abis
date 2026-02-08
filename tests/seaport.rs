@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod tests {
     use substreams::{hex, scalar::BigInt};
-    use substreams_abis::evm::seaport::events::OrderFulfilled;
+    use substreams_abis::seaport::events::OrderFulfilled;
     use substreams_ethereum::pb::eth::v2::Log;
 
     #[test]

@@ -2,8 +2,8 @@
 mod tests {
     use substreams::scalar::BigInt;
     use substreams::{hex, Hex};
-    use substreams_abis::tvm::sunpump::legacy::launchpad::events::TokenCreate as TokenCreateLegacy;
-    use substreams_abis::tvm::sunpump::v1::launchpadproxy::events::TokenCreate;
+    use substreams_abis::dex::sunpump::legacy::launchpad::events::TokenCreate as TokenCreateLegacy;
+    use substreams_abis::dex::sunpump::v1::launchpadproxy::events::TokenCreate;
     use substreams_ethereum::pb::eth::v2::Log;
     use substreams_ethereum::Event;
 

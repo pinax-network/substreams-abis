@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod tests {
     use substreams::hex;
-    use substreams_abis::evm::ens::v1::publicresolver::events::AddrChanged;
+    use substreams_abis::ens::v1::publicresolver::events::AddrChanged;
     use substreams_ethereum::pb::eth::v2::Log;
 
     #[test]

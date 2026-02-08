@@ -15,7 +15,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
-ABI_DIR="$REPO_ROOT/abi/evm/tokens"
+ABI_DIR="$REPO_ROOT/abi/erc20-tokens"
 
 FILTER_CHAIN=""
 ONLY_MISSING=false
@@ -137,7 +137,7 @@ echo "================================================"
 
 # List all ABI files
 echo ""
-echo "ABI files in abi/evm/tokens/:"
+echo "ABI files in abi/erc20-tokens/:"
 ls -1 "$ABI_DIR"/*.json 2>/dev/null | while read f; do
   echo "  $(basename "$f")"
 done

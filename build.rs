@@ -1,4 +1,5 @@
 use anyhow::Result;
+use std::ffi::OsString;
 use std::fs;
 use std::path::PathBuf;
 use substreams_ethereum::Abigen;
@@ -8,7 +9,7 @@ fn main() -> Result<()> {
     // Base directory for your generated files
     let out_base = PathBuf::from("./src");
 
-    // Recursively walk through `./.src`
+    // Recursively walk through `./abi`
     for entry in WalkDir::new("./abi").into_iter().filter_map(|e| e.ok()) {
         let json_path = entry.path();
 
@@ -22,10 +23,15 @@ fn main() -> Result<()> {
                 .unwrap_or("unknown_contract")
                 .to_lowercase();
 
-            // Strip off the leading `./.src/` portion so we can reconstruct a parallel folder tree
+            // Strip off the leading `./abi/` portion so we can reconstruct a parallel folder tree
             let relative_path = json_path.strip_prefix("./abi")?;
-            // Build a PathBuf:  base + the original subfolder + set extension to .rs
-            let mut output_path = out_base.join(relative_path);
+            // Convert hyphens to underscores in directory components
+            // (e.g. abi/erc20-tokens/DAI.json -> src/erc20_tokens/dai.rs)
+            let sanitized: PathBuf = relative_path
+                .iter()
+                .map(|c| OsString::from(c.to_str().unwrap_or("").replace('-', "_")))
+                .collect();
+            let mut output_path = out_base.join(sanitized);
             output_path.set_file_name(format!("{}.rs", contract_name));
 
             // Ensure any subdirectories are created

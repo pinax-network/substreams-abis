@@ -2,7 +2,7 @@
 mod tests {
     use std::str::FromStr;
     use substreams::{hex, scalar::BigInt};
-    use substreams_abis::evm::token::erc20::events::Transfer;
+    use substreams_abis::token::erc20::events::Transfer;
     use substreams_ethereum::pb::eth::v2::Log;
 
     #[test]

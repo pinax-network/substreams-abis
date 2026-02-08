@@ -2,7 +2,7 @@
 #
 # After fetching new ABIs, this script:
 # 1. Runs cargo build to generate Rust code from ABI JSONs
-# 2. Auto-generates mod.rs for src/evm/tokens/ based on existing .rs files
+# 2. Auto-generates mod.rs for src/erc20_tokens/ based on existing .rs files
 #
 # Usage:
 #   ./scripts/update-modules.sh
@@ -11,22 +11,22 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
-TOKENS_SRC="$REPO_ROOT/src/evm/tokens"
-TOKENS_ABI="$REPO_ROOT/abi/evm/tokens"
+TOKENS_SRC="$REPO_ROOT/src/erc20_tokens"
+TOKENS_ABI="$REPO_ROOT/abi/erc20-tokens"
 
 echo "=== Step 1: Building to generate Rust code from ABIs ==="
 cd "$REPO_ROOT"
 cargo build 2>&1
 
 echo ""
-echo "=== Step 2: Generating src/evm/tokens/mod.rs ==="
+echo "=== Step 2: Generating src/erc20_tokens/mod.rs ==="
 
 MOD_FILE="$TOKENS_SRC/mod.rs"
 
 # Collect all .rs files (not mod.rs) and subdirectories with mod.rs
 {
   echo "// @generated"
-  echo "// Auto-generated module declarations for EVM tokens."
+  echo "// Auto-generated module declarations for ERC-20 tokens."
   echo "// Re-run ./scripts/update-modules.sh after adding new ABIs."
   echo ""
 
@@ -57,4 +57,4 @@ cargo build 2>&1
 echo ""
 echo "=== Done ==="
 echo "New token modules are ready. Import them as:"
-echo "  use substreams_abis::evm::tokens::<token_name>;"
+echo "  use substreams_abis::erc20_tokens::<token_name>;"

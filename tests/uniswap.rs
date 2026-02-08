@@ -4,8 +4,8 @@ mod tests {
 
     use substreams::hex;
     use substreams::scalar::BigInt;
-    use substreams_abis::evm::uniswap::v2::factory::events::PairCreated;
-    use substreams_abis::evm::uniswap::v2::pair::events::Sync;
+    use substreams_abis::dex::uniswap::v2::factory::events::PairCreated;
+    use substreams_abis::dex::uniswap::v2::pair::events::Sync;
     use substreams_ethereum::pb::eth::v2::Log;
 
     #[test]

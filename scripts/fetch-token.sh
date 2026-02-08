@@ -18,7 +18,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
-ABI_DIR="$REPO_ROOT/abi/evm/tokens"
+ABI_DIR="$REPO_ROOT/abi/erc20-tokens"
 
 TOKEN_NAME="${1:?Usage: fetch-token.sh <TOKEN_NAME> <ADDRESS> [CHAIN]}"
 ADDRESS="${2:?Usage: fetch-token.sh <TOKEN_NAME> <ADDRESS> [CHAIN]}"
@@ -77,7 +77,7 @@ ABI_MESSAGE=$(echo "$ABI_RESPONSE" | jq -r '.message')
 
 if [ "$ABI_STATUS" = "1" ]; then
   echo "$ABI_RESPONSE" | jq -r '.result' | jq '.' > "$ABI_DIR/$TOKEN_NAME.json"
-  echo "  -> Saved ABI to abi/evm/tokens/$TOKEN_NAME.json"
+  echo "  -> Saved ABI to abi/erc20-tokens/$TOKEN_NAME.json"
 else
   echo "  -> ERROR fetching ABI: $ABI_MESSAGE"
   echo "     (Contract may not be verified on $EXPLORER)"
@@ -111,19 +111,19 @@ if [ "$SRC_STATUS" = "1" ]; then
         fi
         if [ -n "$MAIN_SOURCE" ]; then
           echo "$MAIN_SOURCE" > "$ABI_DIR/$TOKEN_NAME.sol"
-          echo "  -> Saved source to abi/evm/tokens/$TOKEN_NAME.sol (contract: $CONTRACT_NAME, compiler: $COMPILER)"
+          echo "  -> Saved source to abi/erc20-tokens/$TOKEN_NAME.sol (contract: $CONTRACT_NAME, compiler: $COMPILER)"
         else
           echo "  -> Could not extract main source from multi-file contract"
         fi
       else
         # Plain multi-file - just save as-is
         echo "$SOURCE_CODE" > "$ABI_DIR/$TOKEN_NAME.sol"
-        echo "  -> Saved source to abi/evm/tokens/$TOKEN_NAME.sol (contract: $CONTRACT_NAME, compiler: $COMPILER)"
+        echo "  -> Saved source to abi/erc20-tokens/$TOKEN_NAME.sol (contract: $CONTRACT_NAME, compiler: $COMPILER)"
       fi
     else
       # Single-file source
       echo "$SOURCE_CODE" > "$ABI_DIR/$TOKEN_NAME.sol"
-      echo "  -> Saved source to abi/evm/tokens/$TOKEN_NAME.sol (contract: $CONTRACT_NAME, compiler: $COMPILER)"
+      echo "  -> Saved source to abi/erc20-tokens/$TOKEN_NAME.sol (contract: $CONTRACT_NAME, compiler: $COMPILER)"
     fi
   else
     echo "  -> No source code available (contract not verified or source not public)"
