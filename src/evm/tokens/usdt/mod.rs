@@ -1,3 +1,7 @@
+#[path = "bep20usdt_v0.5.16+commit.9c3226ce.rs"]
+pub mod bep20;
+#[path = "erc20swapasset_v0.5.4+commit.9549d8ff.rs"]
+pub mod swap_asset;
 #[path = "tethertoken_arbitrumextensionv2_v0.8.4+commit.c7e474f2.rs"]
 pub mod tethertoken_arbitrum_extension_v2;
 #[path = "tethertoken_v0.4.18+commit.9cf6e910.rs"]
