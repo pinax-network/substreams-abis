@@ -16,12 +16,37 @@ This directory contains standard ABIs for the various blockchains that Substream
 
 ## EVM Tokens
 
+### Stablecoins & Wrapped Assets
 - [x] SAI/DAI
 - [x] USDC
 - [x] USDT
 - [x] WETH
 - [x] WBTC
 - [x] stETH
+
+### ETH Mainnet Tokens
+- [x] SHIB (Shiba Inu)
+- [x] LINK (Chainlink)
+- [x] UNI (Uniswap)
+- [x] MATIC (Polygon)
+- [x] ARB (Arbitrum)
+- [x] LDO (Lido DAO)
+- [x] AAVE (Aave)
+- [x] MKR (Maker)
+- [x] CRV (Curve DAO)
+- [x] PEPE (Pepe)
+- [x] APE (ApeCoin)
+- [x] SNX (Synthetix)
+- [x] COMP (Compound)
+- [x] GRT (The Graph)
+- [x] FET (Fetch.ai)
+
+### Base Chain Tokens
+- [x] AERO (Aerodrome)
+- [x] BRETT (Brett)
+- [x] DEGEN (Degen)
+- [x] TOSHI (Toshi)
+- [x] WELL (Moonwell)
 
 ## EVM Contracts
 
