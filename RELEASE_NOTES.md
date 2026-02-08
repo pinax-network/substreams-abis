@@ -1,4 +1,4 @@
-# Release Notes - v0.10.0
+# Release Notes - v0.9.0
 
 ## Summary
 
@@ -8,7 +8,7 @@ Restructured the entire repository to remove the `evm/` and `tvm/` namespace nes
 
 All import paths have changed. Update your `use` statements:
 
-| Before (v0.9.0) | After (v0.10.0) |
+| Before | After (v0.9.0) |
 |------------------|-----------------|
 | `substreams_abis::evm::tokens::*` | `substreams_abis::erc20_tokens::*` |
 | `substreams_abis::evm::nfts::*` | `substreams_abis::erc721_tokens::*` |
@@ -67,5 +67,4 @@ use substreams_abis::dex::sunpump::v1::launchpadproxy::events::TokenCreate;
 
 - `cargo build` passes
 - All 11 tests pass with updated imports
-- Previous: 0.9.0
-- New: 0.10.0
+- Version: 0.9.0
