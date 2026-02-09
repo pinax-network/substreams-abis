@@ -8,7 +8,7 @@
 # Arguments:
 #   TOKEN_NAME       - Token symbol in CAPS (e.g. SHIB, LINK, UNI)
 #   CONTRACT_ADDRESS - The 0x... contract address
-#   CHAIN            - "eth" (default) or "base"
+#   CHAIN            - "eth" (default), "base", "bsc", "polygon", "arbitrum", "avalanche", "unichain", etc.
 #
 # Examples:
 #   ./scripts/fetch-token.sh SHIB 0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE
@@ -52,8 +52,16 @@ case "$CHAIN" in
     API_BASE="https://api.bscscan.com/api"
     EXPLORER="bscscan.com"
     ;;
+  avalanche|avax)
+    API_BASE="https://api.routescan.io/v2/network/mainnet/evm/43114/etherscan/api"
+    EXPLORER="routescan.io (avalanche)"
+    ;;
+  unichain)
+    API_BASE="https://unichain.blockscout.com/api"
+    EXPLORER="unichain.blockscout.com"
+    ;;
   *)
-    echo "Error: Unknown chain '$CHAIN'. Supported: eth, base, arbitrum, optimism, polygon, bsc"
+    echo "Error: Unknown chain '$CHAIN'. Supported: eth, base, arbitrum, optimism, polygon, bsc, avalanche, unichain"
     exit 1
     ;;
 esac
