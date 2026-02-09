@@ -1,0 +1,24 @@
+{
+  "name": "substreams-abis",
+  "version": "0.9.0",
+  "description": "CLI tool for managing Substreams ABI bindings",
+  "type": "module",
+  "scripts": {
+    "cli": "bun run cli.ts",
+    "fetch-token": "bun run cli.ts fetch-token",
+    "fetch-all": "bun run cli.ts fetch-all",
+    "update-modules": "bun run cli.ts update-modules",
+    "filter-standard": "bun run cli.ts filter-standard",
+    "keccak": "bun run cli.ts keccak",
+    "build-registry": "bun run cli.ts build-registry"
+  },
+  "dependencies": {
+    "commander": "^13.1.0",
+    "dotenv": "^16.4.7",
+    "ethers": "^6.15.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.1",
+    "typescript": "^5.7.3"
+  }
+}
