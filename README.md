@@ -143,6 +143,6 @@ bun run cli.ts fetch-token SHIB 0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE --cha
 bun run cli.ts fetch-all --chain base --missing --no-duplicates
 bun run cli.ts filter-standard --delete
 bun run cli.ts keccak -s "Transfer(address,address,uint256)"
-bun run cli.ts build-registry -o custom-path.json
+bun run cli.ts build-registry -o token-registry.json
 bun run cli.ts update-modules
 ```
