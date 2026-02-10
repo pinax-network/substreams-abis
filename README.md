@@ -17,6 +17,7 @@ This directory contains standard ABIs for the various blockchains that Substream
 ## EVM Tokens
 
 ### Stablecoins & Wrapped Assets
+
 - [x] SAI/DAI
 - [x] USDC
 - [x] USDT
@@ -25,6 +26,7 @@ This directory contains standard ABIs for the various blockchains that Substream
 - [x] stETH
 
 ### ETH Mainnet Tokens
+
 - [x] SHIB (Shiba Inu)
 - [x] LINK (Chainlink)
 - [x] UNI (Uniswap)
@@ -42,6 +44,7 @@ This directory contains standard ABIs for the various blockchains that Substream
 - [x] FET (Fetch.ai)
 
 ### Base Chain Tokens
+
 - [x] AERO (Aerodrome)
 - [x] BRETT (Brett)
 - [x] DEGEN (Degen)
@@ -131,4 +134,15 @@ for trx in block.transactions() {
     // transfer.value => 3400000000
   }
 }
+```
+
+## CLI Usage
+
+```bash
+bun run cli.ts fetch-token SHIB 0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE --chain eth
+bun run cli.ts fetch-all --chain base --missing --no-duplicates
+bun run cli.ts filter-standard --delete
+bun run cli.ts keccak -s "Transfer(address,address,uint256)"
+bun run cli.ts build-registry -o custom-path.json
+bun run cli.ts update-modules
 ```
