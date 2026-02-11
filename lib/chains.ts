@@ -1,79 +1,38 @@
 /**
- * Chain configuration for block explorer APIs.
+ * Chain configuration for the Etherscan V2 API.
+ *
+ * V2 uses a single endpoint (https://api.etherscan.io/v2/api) with a
+ * `chainid` parameter instead of separate per-chain base URLs.
  */
 
+export const API_BASE = "https://api.etherscan.io/v2/api";
+
 export interface ChainConfig {
-  apiBase: string;
+  chainId: number;
   explorer: string;
 }
 
 export const SUPPORTED_CHAINS: Record<string, ChainConfig> = {
-  eth: {
-    apiBase: "https://api.etherscan.io/api",
-    explorer: "etherscan.io",
-  },
-  ethereum: {
-    apiBase: "https://api.etherscan.io/api",
-    explorer: "etherscan.io",
-  },
-  mainnet: {
-    apiBase: "https://api.etherscan.io/api",
-    explorer: "etherscan.io",
-  },
-  base: {
-    apiBase: "https://api.basescan.org/api",
-    explorer: "basescan.org",
-  },
-  arbitrum: {
-    apiBase: "https://api.arbiscan.io/api",
-    explorer: "arbiscan.io",
-  },
-  arb: {
-    apiBase: "https://api.arbiscan.io/api",
-    explorer: "arbiscan.io",
-  },
-  optimism: {
-    apiBase: "https://api-optimistic.etherscan.io/api",
-    explorer: "optimistic.etherscan.io",
-  },
-  op: {
-    apiBase: "https://api-optimistic.etherscan.io/api",
-    explorer: "optimistic.etherscan.io",
-  },
-  polygon: {
-    apiBase: "https://api.polygonscan.com/api",
-    explorer: "polygonscan.com",
-  },
-  matic: {
-    apiBase: "https://api.polygonscan.com/api",
-    explorer: "polygonscan.com",
-  },
-  bsc: {
-    apiBase: "https://api.bscscan.com/api",
-    explorer: "bscscan.com",
-  },
-  bnb: {
-    apiBase: "https://api.bscscan.com/api",
-    explorer: "bscscan.com",
-  },
-  avalanche: {
-    apiBase: "https://api.routescan.io/v2/network/mainnet/evm/43114/etherscan/api",
-    explorer: "routescan.io (avalanche)",
-  },
-  avax: {
-    apiBase: "https://api.routescan.io/v2/network/mainnet/evm/43114/etherscan/api",
-    explorer: "routescan.io (avalanche)",
-  },
-  unichain: {
-    apiBase: "https://unichain.blockscout.com/api",
-    explorer: "unichain.blockscout.com",
-  },
+  eth:       { chainId: 1,     explorer: "etherscan.io" },
+  ethereum:  { chainId: 1,     explorer: "etherscan.io" },
+  mainnet:   { chainId: 1,     explorer: "etherscan.io" },
+  base:      { chainId: 8453,  explorer: "basescan.org" },
+  arbitrum:  { chainId: 42161, explorer: "arbiscan.io" },
+  arb:       { chainId: 42161, explorer: "arbiscan.io" },
+  optimism:  { chainId: 10,    explorer: "optimistic.etherscan.io" },
+  op:        { chainId: 10,    explorer: "optimistic.etherscan.io" },
+  polygon:   { chainId: 137,   explorer: "polygonscan.com" },
+  matic:     { chainId: 137,   explorer: "polygonscan.com" },
+  bsc:       { chainId: 56,    explorer: "bscscan.com" },
+  bnb:       { chainId: 56,    explorer: "bscscan.com" },
+  avalanche: { chainId: 43114, explorer: "snowtrace.io" },
+  avax:      { chainId: 43114, explorer: "snowtrace.io" },
+  unichain:  { chainId: 130,   explorer: "unichain.blockscout.com" },
 };
 
 export function getChainConfig(chain: string): ChainConfig {
   const config = SUPPORTED_CHAINS[chain];
   if (!config) {
-    const supported = [...new Set(Object.values(SUPPORTED_CHAINS).map((c) => c.explorer))];
     throw new Error(
       `Unknown chain '${chain}'. Supported: ${Object.keys(SUPPORTED_CHAINS).join(", ")}`
     );

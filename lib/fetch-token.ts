@@ -3,7 +3,7 @@
  */
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { resolve, dirname } from "path";
-import { getChainConfig } from "./chains";
+import { API_BASE, getChainConfig } from "./chains";
 
 const RATE_LIMIT_SLEEP = 250; // ms
 
@@ -41,6 +41,7 @@ export async function fetchToken(opts: FetchTokenOptions): Promise<FetchTokenRes
   mkdirSync(abiDir, { recursive: true });
 
   const apiKeyParam = opts.apiKey ? `&apikey=${opts.apiKey}` : "";
+  const chainParam = `chainid=${config.chainId}`;
   const result: FetchTokenResult = {
     tokenName: opts.tokenName,
     address: opts.address,
@@ -53,7 +54,7 @@ export async function fetchToken(opts: FetchTokenOptions): Promise<FetchTokenRes
 
   // --- Fetch ABI ---
   console.log("  -> Fetching ABI...");
-  const abiUrl = `${config.apiBase}?module=contract&action=getabi&address=${opts.address}${apiKeyParam}`;
+  const abiUrl = `${API_BASE}?${chainParam}&module=contract&action=getabi&address=${opts.address}${apiKeyParam}`;
   try {
     const abiResp = await fetch(abiUrl);
     const abiData = (await abiResp.json()) as { status: string; message: string; result: string };
@@ -79,7 +80,7 @@ export async function fetchToken(opts: FetchTokenOptions): Promise<FetchTokenRes
 
   // --- Fetch Source Code ---
   console.log("  -> Fetching source code...");
-  const srcUrl = `${config.apiBase}?module=contract&action=getsourcecode&address=${opts.address}${apiKeyParam}`;
+  const srcUrl = `${API_BASE}?${chainParam}&module=contract&action=getsourcecode&address=${opts.address}${apiKeyParam}`;
   try {
     const srcResp = await fetch(srcUrl);
     const srcData = (await srcResp.json()) as {
