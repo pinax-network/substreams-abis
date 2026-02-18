@@ -18,9 +18,38 @@ pub mod events {
     }
     impl NewExchange {
         const TOPIC_ID: [u8; 32] = [
-            157u8, 66u8, 203u8, 1u8, 126u8, 176u8, 91u8, 216u8, 148u8, 74u8, 181u8, 54u8, 168u8,
-            179u8, 91u8, 198u8, 128u8, 133u8, 147u8, 29u8, 213u8, 244u8, 53u8, 100u8, 137u8, 128u8,
-            20u8, 83u8, 146u8, 57u8, 83u8, 249u8,
+            157u8,
+            66u8,
+            203u8,
+            1u8,
+            126u8,
+            176u8,
+            91u8,
+            216u8,
+            148u8,
+            74u8,
+            181u8,
+            54u8,
+            168u8,
+            179u8,
+            91u8,
+            198u8,
+            128u8,
+            133u8,
+            147u8,
+            29u8,
+            213u8,
+            244u8,
+            53u8,
+            100u8,
+            137u8,
+            128u8,
+            20u8,
+            83u8,
+            146u8,
+            57u8,
+            83u8,
+            249u8,
         ];
         pub fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
             if log.topics.len() != 3usize {
@@ -32,9 +61,14 @@ pub mod events {
             return log.topics.get(0).expect("bounds already checked").as_ref() as &[u8]
                 == Self::TOPIC_ID;
         }
-        pub fn decode(log: &substreams_ethereum::pb::eth::v2::Log) -> Result<Self, String> {
+        pub fn decode(
+            log: &substreams_ethereum::pb::eth::v2::Log,
+        ) -> Result<Self, String> {
             Ok(Self {
-                token: ethabi::decode(&[ethabi::ParamType::Address], log.topics[1usize].as_ref())
+                token: ethabi::decode(
+                        &[ethabi::ParamType::Address],
+                        log.topics[1usize].as_ref(),
+                    )
                     .map_err(|e| {
                         format!(
                             "unable to decode param 'token' from topic of type 'address': {:?}",
@@ -48,21 +82,21 @@ pub mod events {
                     .as_bytes()
                     .to_vec(),
                 exchange: ethabi::decode(
-                    &[ethabi::ParamType::Address],
-                    log.topics[2usize].as_ref(),
-                )
-                .map_err(|e| {
-                    format!(
-                        "unable to decode param 'exchange' from topic of type 'address': {:?}",
-                        e
+                        &[ethabi::ParamType::Address],
+                        log.topics[2usize].as_ref(),
                     )
-                })?
-                .pop()
-                .expect(INTERNAL_ERR)
-                .into_address()
-                .expect(INTERNAL_ERR)
-                .as_bytes()
-                .to_vec(),
+                    .map_err(|e| {
+                        format!(
+                            "unable to decode param 'exchange' from topic of type 'address': {:?}",
+                            e
+                        )
+                    })?
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
             })
         }
     }

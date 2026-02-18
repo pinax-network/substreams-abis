@@ -44,6 +44,7 @@ pub mod matic;
 pub mod mkr;
 pub mod mog;
 pub mod ondo;
+pub mod op;
 pub mod orbs;
 pub mod pendle;
 pub mod pepe;
