@@ -6,3 +6,4 @@ pub mod erc4626;
 pub mod erc721;
 pub mod erc777;
 pub mod extensions;
+pub mod weth;

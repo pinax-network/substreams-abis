@@ -14,3 +14,4 @@ pub mod aerodrome;
 pub mod traderjoe;
 pub mod velodrome;
 pub mod zerox;
+pub mod camelot;
