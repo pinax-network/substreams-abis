@@ -19,9 +19,38 @@ pub mod events {
     }
     impl AddLiquidity {
         const TOPIC_ID: [u8; 32] = [
-            6u8, 35u8, 150u8, 83u8, 146u8, 42u8, 199u8, 190u8, 166u8, 170u8, 43u8, 25u8, 220u8,
-            72u8, 107u8, 147u8, 97u8, 130u8, 29u8, 55u8, 113u8, 46u8, 183u8, 150u8, 173u8, 253u8,
-            56u8, 216u8, 29u8, 226u8, 120u8, 202u8,
+            6u8,
+            35u8,
+            150u8,
+            83u8,
+            146u8,
+            42u8,
+            199u8,
+            190u8,
+            166u8,
+            170u8,
+            43u8,
+            25u8,
+            220u8,
+            72u8,
+            107u8,
+            147u8,
+            97u8,
+            130u8,
+            29u8,
+            55u8,
+            113u8,
+            46u8,
+            183u8,
+            150u8,
+            173u8,
+            253u8,
+            56u8,
+            216u8,
+            29u8,
+            226u8,
+            120u8,
+            202u8,
         ];
         pub fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
             if log.topics.len() != 4usize {
@@ -33,24 +62,26 @@ pub mod events {
             return log.topics.get(0).expect("bounds already checked").as_ref() as &[u8]
                 == Self::TOPIC_ID;
         }
-        pub fn decode(log: &substreams_ethereum::pb::eth::v2::Log) -> Result<Self, String> {
+        pub fn decode(
+            log: &substreams_ethereum::pb::eth::v2::Log,
+        ) -> Result<Self, String> {
             Ok(Self {
                 provider: ethabi::decode(
-                    &[ethabi::ParamType::Address],
-                    log.topics[1usize].as_ref(),
-                )
-                .map_err(|e| {
-                    format!(
-                        "unable to decode param 'provider' from topic of type 'address': {:?}",
-                        e
+                        &[ethabi::ParamType::Address],
+                        log.topics[1usize].as_ref(),
                     )
-                })?
-                .pop()
-                .expect(INTERNAL_ERR)
-                .into_address()
-                .expect(INTERNAL_ERR)
-                .as_bytes()
-                .to_vec(),
+                    .map_err(|e| {
+                        format!(
+                            "unable to decode param 'provider' from topic of type 'address': {:?}",
+                            e
+                        )
+                    })?
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
                 trx_amount: {
                     let mut v = [0 as u8; 32];
                     ethabi::decode(
@@ -109,9 +140,38 @@ pub mod events {
     }
     impl Approval {
         const TOPIC_ID: [u8; 32] = [
-            140u8, 91u8, 225u8, 229u8, 235u8, 236u8, 125u8, 91u8, 209u8, 79u8, 113u8, 66u8, 125u8,
-            30u8, 132u8, 243u8, 221u8, 3u8, 20u8, 192u8, 247u8, 178u8, 41u8, 30u8, 91u8, 32u8,
-            10u8, 200u8, 199u8, 195u8, 185u8, 37u8,
+            140u8,
+            91u8,
+            225u8,
+            229u8,
+            235u8,
+            236u8,
+            125u8,
+            91u8,
+            209u8,
+            79u8,
+            113u8,
+            66u8,
+            125u8,
+            30u8,
+            132u8,
+            243u8,
+            221u8,
+            3u8,
+            20u8,
+            192u8,
+            247u8,
+            178u8,
+            41u8,
+            30u8,
+            91u8,
+            32u8,
+            10u8,
+            200u8,
+            199u8,
+            195u8,
+            185u8,
+            37u8,
         ];
         pub fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
             if log.topics.len() != 3usize {
@@ -123,13 +183,20 @@ pub mod events {
             return log.topics.get(0).expect("bounds already checked").as_ref() as &[u8]
                 == Self::TOPIC_ID;
         }
-        pub fn decode(log: &substreams_ethereum::pb::eth::v2::Log) -> Result<Self, String> {
-            let mut values =
-                ethabi::decode(&[ethabi::ParamType::Uint(256usize)], log.data.as_ref())
-                    .map_err(|e| format!("unable to decode log.data: {:?}", e))?;
+        pub fn decode(
+            log: &substreams_ethereum::pb::eth::v2::Log,
+        ) -> Result<Self, String> {
+            let mut values = ethabi::decode(
+                    &[ethabi::ParamType::Uint(256usize)],
+                    log.data.as_ref(),
+                )
+                .map_err(|e| format!("unable to decode log.data: {:?}", e))?;
             values.reverse();
             Ok(Self {
-                owner: ethabi::decode(&[ethabi::ParamType::Address], log.topics[1usize].as_ref())
+                owner: ethabi::decode(
+                        &[ethabi::ParamType::Address],
+                        log.topics[1usize].as_ref(),
+                    )
                     .map_err(|e| {
                         format!(
                             "unable to decode param 'owner' from topic of type 'address': {:?}",
@@ -142,7 +209,10 @@ pub mod events {
                     .expect(INTERNAL_ERR)
                     .as_bytes()
                     .to_vec(),
-                spender: ethabi::decode(&[ethabi::ParamType::Address], log.topics[2usize].as_ref())
+                spender: ethabi::decode(
+                        &[ethabi::ParamType::Address],
+                        log.topics[2usize].as_ref(),
+                    )
                     .map_err(|e| {
                         format!(
                             "unable to decode param 'spender' from topic of type 'address': {:?}",
@@ -185,9 +255,38 @@ pub mod events {
     }
     impl RemoveLiquidity {
         const TOPIC_ID: [u8; 32] = [
-            15u8, 191u8, 6u8, 192u8, 88u8, 185u8, 12u8, 176u8, 56u8, 166u8, 24u8, 248u8, 194u8,
-            172u8, 191u8, 97u8, 69u8, 248u8, 179u8, 87u8, 15u8, 209u8, 250u8, 86u8, 171u8, 184u8,
-            240u8, 243u8, 240u8, 91u8, 54u8, 232u8,
+            15u8,
+            191u8,
+            6u8,
+            192u8,
+            88u8,
+            185u8,
+            12u8,
+            176u8,
+            56u8,
+            166u8,
+            24u8,
+            248u8,
+            194u8,
+            172u8,
+            191u8,
+            97u8,
+            69u8,
+            248u8,
+            179u8,
+            87u8,
+            15u8,
+            209u8,
+            250u8,
+            86u8,
+            171u8,
+            184u8,
+            240u8,
+            243u8,
+            240u8,
+            91u8,
+            54u8,
+            232u8,
         ];
         pub fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
             if log.topics.len() != 4usize {
@@ -199,24 +298,26 @@ pub mod events {
             return log.topics.get(0).expect("bounds already checked").as_ref() as &[u8]
                 == Self::TOPIC_ID;
         }
-        pub fn decode(log: &substreams_ethereum::pb::eth::v2::Log) -> Result<Self, String> {
+        pub fn decode(
+            log: &substreams_ethereum::pb::eth::v2::Log,
+        ) -> Result<Self, String> {
             Ok(Self {
                 provider: ethabi::decode(
-                    &[ethabi::ParamType::Address],
-                    log.topics[1usize].as_ref(),
-                )
-                .map_err(|e| {
-                    format!(
-                        "unable to decode param 'provider' from topic of type 'address': {:?}",
-                        e
+                        &[ethabi::ParamType::Address],
+                        log.topics[1usize].as_ref(),
                     )
-                })?
-                .pop()
-                .expect(INTERNAL_ERR)
-                .into_address()
-                .expect(INTERNAL_ERR)
-                .as_bytes()
-                .to_vec(),
+                    .map_err(|e| {
+                        format!(
+                            "unable to decode param 'provider' from topic of type 'address': {:?}",
+                            e
+                        )
+                    })?
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
                 trx_amount: {
                     let mut v = [0 as u8; 32];
                     ethabi::decode(
@@ -275,9 +376,38 @@ pub mod events {
     }
     impl Snapshot {
         const TOPIC_ID: [u8; 32] = [
-            204u8, 114u8, 68u8, 211u8, 83u8, 94u8, 118u8, 57u8, 54u8, 111u8, 140u8, 82u8, 17u8,
-            82u8, 113u8, 18u8, 224u8, 29u8, 227u8, 236u8, 116u8, 73u8, 238u8, 58u8, 110u8, 102u8,
-            176u8, 7u8, 244u8, 6u8, 90u8, 112u8,
+            204u8,
+            114u8,
+            68u8,
+            211u8,
+            83u8,
+            94u8,
+            118u8,
+            57u8,
+            54u8,
+            111u8,
+            140u8,
+            82u8,
+            17u8,
+            82u8,
+            113u8,
+            18u8,
+            224u8,
+            29u8,
+            227u8,
+            236u8,
+            116u8,
+            73u8,
+            238u8,
+            58u8,
+            110u8,
+            102u8,
+            176u8,
+            7u8,
+            244u8,
+            6u8,
+            90u8,
+            112u8,
         ];
         pub fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
             if log.topics.len() != 4usize {
@@ -289,24 +419,26 @@ pub mod events {
             return log.topics.get(0).expect("bounds already checked").as_ref() as &[u8]
                 == Self::TOPIC_ID;
         }
-        pub fn decode(log: &substreams_ethereum::pb::eth::v2::Log) -> Result<Self, String> {
+        pub fn decode(
+            log: &substreams_ethereum::pb::eth::v2::Log,
+        ) -> Result<Self, String> {
             Ok(Self {
                 operator: ethabi::decode(
-                    &[ethabi::ParamType::Address],
-                    log.topics[1usize].as_ref(),
-                )
-                .map_err(|e| {
-                    format!(
-                        "unable to decode param 'operator' from topic of type 'address': {:?}",
-                        e
+                        &[ethabi::ParamType::Address],
+                        log.topics[1usize].as_ref(),
                     )
-                })?
-                .pop()
-                .expect(INTERNAL_ERR)
-                .into_address()
-                .expect(INTERNAL_ERR)
-                .as_bytes()
-                .to_vec(),
+                    .map_err(|e| {
+                        format!(
+                            "unable to decode param 'operator' from topic of type 'address': {:?}",
+                            e
+                        )
+                    })?
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
                 trx_balance: {
                     let mut v = [0 as u8; 32];
                     ethabi::decode(
@@ -365,9 +497,38 @@ pub mod events {
     }
     impl TokenPurchase {
         const TOPIC_ID: [u8; 32] = [
-            205u8, 96u8, 170u8, 117u8, 222u8, 163u8, 7u8, 47u8, 188u8, 7u8, 174u8, 109u8, 125u8,
-            133u8, 107u8, 93u8, 197u8, 244u8, 238u8, 232u8, 136u8, 84u8, 245u8, 180u8, 171u8,
-            247u8, 182u8, 128u8, 239u8, 139u8, 197u8, 15u8,
+            205u8,
+            96u8,
+            170u8,
+            117u8,
+            222u8,
+            163u8,
+            7u8,
+            47u8,
+            188u8,
+            7u8,
+            174u8,
+            109u8,
+            125u8,
+            133u8,
+            107u8,
+            93u8,
+            197u8,
+            244u8,
+            238u8,
+            232u8,
+            136u8,
+            84u8,
+            245u8,
+            180u8,
+            171u8,
+            247u8,
+            182u8,
+            128u8,
+            239u8,
+            139u8,
+            197u8,
+            15u8,
         ];
         pub fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
             if log.topics.len() != 4usize {
@@ -379,9 +540,14 @@ pub mod events {
             return log.topics.get(0).expect("bounds already checked").as_ref() as &[u8]
                 == Self::TOPIC_ID;
         }
-        pub fn decode(log: &substreams_ethereum::pb::eth::v2::Log) -> Result<Self, String> {
+        pub fn decode(
+            log: &substreams_ethereum::pb::eth::v2::Log,
+        ) -> Result<Self, String> {
             Ok(Self {
-                buyer: ethabi::decode(&[ethabi::ParamType::Address], log.topics[1usize].as_ref())
+                buyer: ethabi::decode(
+                        &[ethabi::ParamType::Address],
+                        log.topics[1usize].as_ref(),
+                    )
                     .map_err(|e| {
                         format!(
                             "unable to decode param 'buyer' from topic of type 'address': {:?}",
@@ -397,20 +563,20 @@ pub mod events {
                 trx_sold: {
                     let mut v = [0 as u8; 32];
                     ethabi::decode(
-                        &[ethabi::ParamType::Uint(256usize)],
-                        log.topics[2usize].as_ref(),
-                    )
-                    .map_err(|e| {
-                        format!(
-                            "unable to decode param 'trx_sold' from topic of type 'uint256': {:?}",
-                            e
+                            &[ethabi::ParamType::Uint(256usize)],
+                            log.topics[2usize].as_ref(),
                         )
-                    })?
-                    .pop()
-                    .expect(INTERNAL_ERR)
-                    .into_uint()
-                    .expect(INTERNAL_ERR)
-                    .to_big_endian(v.as_mut_slice());
+                        .map_err(|e| {
+                            format!(
+                                "unable to decode param 'trx_sold' from topic of type 'uint256': {:?}",
+                                e
+                            )
+                        })?
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_uint()
+                        .expect(INTERNAL_ERR)
+                        .to_big_endian(v.as_mut_slice());
                     substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
                 },
                 tokens_bought: {
@@ -452,9 +618,38 @@ pub mod events {
     }
     impl Transfer {
         const TOPIC_ID: [u8; 32] = [
-            221u8, 242u8, 82u8, 173u8, 27u8, 226u8, 200u8, 155u8, 105u8, 194u8, 176u8, 104u8,
-            252u8, 55u8, 141u8, 170u8, 149u8, 43u8, 167u8, 241u8, 99u8, 196u8, 161u8, 22u8, 40u8,
-            245u8, 90u8, 77u8, 245u8, 35u8, 179u8, 239u8,
+            221u8,
+            242u8,
+            82u8,
+            173u8,
+            27u8,
+            226u8,
+            200u8,
+            155u8,
+            105u8,
+            194u8,
+            176u8,
+            104u8,
+            252u8,
+            55u8,
+            141u8,
+            170u8,
+            149u8,
+            43u8,
+            167u8,
+            241u8,
+            99u8,
+            196u8,
+            161u8,
+            22u8,
+            40u8,
+            245u8,
+            90u8,
+            77u8,
+            245u8,
+            35u8,
+            179u8,
+            239u8,
         ];
         pub fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
             if log.topics.len() != 3usize {
@@ -466,13 +661,20 @@ pub mod events {
             return log.topics.get(0).expect("bounds already checked").as_ref() as &[u8]
                 == Self::TOPIC_ID;
         }
-        pub fn decode(log: &substreams_ethereum::pb::eth::v2::Log) -> Result<Self, String> {
-            let mut values =
-                ethabi::decode(&[ethabi::ParamType::Uint(256usize)], log.data.as_ref())
-                    .map_err(|e| format!("unable to decode log.data: {:?}", e))?;
+        pub fn decode(
+            log: &substreams_ethereum::pb::eth::v2::Log,
+        ) -> Result<Self, String> {
+            let mut values = ethabi::decode(
+                    &[ethabi::ParamType::Uint(256usize)],
+                    log.data.as_ref(),
+                )
+                .map_err(|e| format!("unable to decode log.data: {:?}", e))?;
             values.reverse();
             Ok(Self {
-                from: ethabi::decode(&[ethabi::ParamType::Address], log.topics[1usize].as_ref())
+                from: ethabi::decode(
+                        &[ethabi::ParamType::Address],
+                        log.topics[1usize].as_ref(),
+                    )
                     .map_err(|e| {
                         format!(
                             "unable to decode param 'from' from topic of type 'address': {:?}",
@@ -485,7 +687,10 @@ pub mod events {
                     .expect(INTERNAL_ERR)
                     .as_bytes()
                     .to_vec(),
-                to: ethabi::decode(&[ethabi::ParamType::Address], log.topics[2usize].as_ref())
+                to: ethabi::decode(
+                        &[ethabi::ParamType::Address],
+                        log.topics[2usize].as_ref(),
+                    )
                     .map_err(|e| {
                         format!(
                             "unable to decode param 'to' from topic of type 'address': {:?}",
@@ -528,9 +733,38 @@ pub mod events {
     }
     impl TrxPurchase {
         const TOPIC_ID: [u8; 32] = [
-            218u8, 217u8, 236u8, 92u8, 155u8, 156u8, 130u8, 191u8, 105u8, 39u8, 191u8, 11u8, 100u8,
-            41u8, 61u8, 205u8, 209u8, 248u8, 44u8, 146u8, 121u8, 58u8, 239u8, 60u8, 95u8, 38u8,
-            215u8, 185u8, 58u8, 74u8, 83u8, 6u8,
+            218u8,
+            217u8,
+            236u8,
+            92u8,
+            155u8,
+            156u8,
+            130u8,
+            191u8,
+            105u8,
+            39u8,
+            191u8,
+            11u8,
+            100u8,
+            41u8,
+            61u8,
+            205u8,
+            209u8,
+            248u8,
+            44u8,
+            146u8,
+            121u8,
+            58u8,
+            239u8,
+            60u8,
+            95u8,
+            38u8,
+            215u8,
+            185u8,
+            58u8,
+            74u8,
+            83u8,
+            6u8,
         ];
         pub fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
             if log.topics.len() != 4usize {
@@ -542,9 +776,14 @@ pub mod events {
             return log.topics.get(0).expect("bounds already checked").as_ref() as &[u8]
                 == Self::TOPIC_ID;
         }
-        pub fn decode(log: &substreams_ethereum::pb::eth::v2::Log) -> Result<Self, String> {
+        pub fn decode(
+            log: &substreams_ethereum::pb::eth::v2::Log,
+        ) -> Result<Self, String> {
             Ok(Self {
-                buyer: ethabi::decode(&[ethabi::ParamType::Address], log.topics[1usize].as_ref())
+                buyer: ethabi::decode(
+                        &[ethabi::ParamType::Address],
+                        log.topics[1usize].as_ref(),
+                    )
                     .map_err(|e| {
                         format!(
                             "unable to decode param 'buyer' from topic of type 'address': {:?}",

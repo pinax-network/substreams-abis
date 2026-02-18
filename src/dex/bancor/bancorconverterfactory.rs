@@ -18,9 +18,38 @@ pub mod events {
     }
     impl NewConverter {
         const TOPIC_ID: [u8; 32] = [
-            181u8, 78u8, 184u8, 247u8, 4u8, 118u8, 145u8, 11u8, 234u8, 81u8, 11u8, 76u8, 161u8,
-            236u8, 225u8, 253u8, 177u8, 30u8, 235u8, 52u8, 91u8, 13u8, 70u8, 34u8, 29u8, 212u8,
-            11u8, 168u8, 110u8, 100u8, 149u8, 51u8,
+            181u8,
+            78u8,
+            184u8,
+            247u8,
+            4u8,
+            118u8,
+            145u8,
+            11u8,
+            234u8,
+            81u8,
+            11u8,
+            76u8,
+            161u8,
+            236u8,
+            225u8,
+            253u8,
+            177u8,
+            30u8,
+            235u8,
+            52u8,
+            91u8,
+            13u8,
+            70u8,
+            34u8,
+            29u8,
+            212u8,
+            11u8,
+            168u8,
+            110u8,
+            100u8,
+            149u8,
+            51u8,
         ];
         pub fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
             if log.topics.len() != 3usize {
@@ -32,25 +61,30 @@ pub mod events {
             return log.topics.get(0).expect("bounds already checked").as_ref() as &[u8]
                 == Self::TOPIC_ID;
         }
-        pub fn decode(log: &substreams_ethereum::pb::eth::v2::Log) -> Result<Self, String> {
+        pub fn decode(
+            log: &substreams_ethereum::pb::eth::v2::Log,
+        ) -> Result<Self, String> {
             Ok(Self {
                 converter: ethabi::decode(
-                    &[ethabi::ParamType::Address],
-                    log.topics[1usize].as_ref(),
-                )
-                .map_err(|e| {
-                    format!(
-                        "unable to decode param 'converter' from topic of type 'address': {:?}",
-                        e
+                        &[ethabi::ParamType::Address],
+                        log.topics[1usize].as_ref(),
                     )
-                })?
-                .pop()
-                .expect(INTERNAL_ERR)
-                .into_address()
-                .expect(INTERNAL_ERR)
-                .as_bytes()
-                .to_vec(),
-                owner: ethabi::decode(&[ethabi::ParamType::Address], log.topics[2usize].as_ref())
+                    .map_err(|e| {
+                        format!(
+                            "unable to decode param 'converter' from topic of type 'address': {:?}",
+                            e
+                        )
+                    })?
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                owner: ethabi::decode(
+                        &[ethabi::ParamType::Address],
+                        log.topics[2usize].as_ref(),
+                    )
                     .map_err(|e| {
                         format!(
                             "unable to decode param 'owner' from topic of type 'address': {:?}",
