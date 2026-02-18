@@ -46,5 +46,21 @@ fn main() -> Result<()> {
         }
     }
 
+    // Auto-format generated files (best-effort; won't fail the build if rustfmt is missing)
+    let _ = std::process::Command::new("rustfmt")
+        .args(["--edition", "2021"])
+        .args(
+            WalkDir::new("./src")
+                .into_iter()
+                .filter_map(|e| e.ok())
+                .filter(|e| {
+                    e.path().is_file()
+                        && e.path().extension().and_then(|ext| ext.to_str()) == Some("rs")
+                })
+                .map(|e| e.path().to_string_lossy().to_string())
+                .collect::<Vec<_>>(),
+        )
+        .status();
+
     Ok(())
 }
