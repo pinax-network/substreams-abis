@@ -40,6 +40,7 @@ fn main() -> Result<()> {
             }
 
             // Generate & write
+            eprintln!("Processing: {} -> {:?}", contract_name, output_path);
             Abigen::new(&contract_name, &json_path.to_string_lossy().to_string())?
                 .generate()?
                 .write_to_file(output_path)?;
