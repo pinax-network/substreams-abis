@@ -1,6 +1,6 @@
 // @generated
 // Auto-generated module declarations for ERC-20 tokens.
-// Re-run ./scripts/update-modules.sh after adding new ABIs.
+// Re-run 'bun run cli.ts update-modules' after adding new ABIs.
 
 pub mod aave;
 pub mod acred;
@@ -12,6 +12,7 @@ pub mod axl;
 pub mod bat;
 pub mod beam;
 pub mod blendr;
+pub mod blur;
 pub mod bonk;
 pub mod brett;
 pub mod buidl;
@@ -31,7 +32,9 @@ pub mod gho;
 pub mod gmx;
 pub mod grt;
 pub mod gun;
+pub mod imx;
 pub mod jaaa;
+pub mod jasmy;
 pub mod jtrsy;
 pub mod jup;
 pub mod kite;
@@ -40,12 +43,17 @@ pub mod link;
 pub mod matic;
 pub mod mkr;
 pub mod mog;
+pub mod ondo;
 pub mod orbs;
+pub mod pendle;
 pub mod pepe;
 pub mod rekt;
+pub mod render;
 pub mod reusd;
+pub mod rpl;
 pub mod sai;
 pub mod sb;
+pub mod shib;
 pub mod snx;
 pub mod spell;
 pub mod spx;
@@ -64,6 +72,7 @@ pub mod vcnt;
 pub mod wbtc;
 pub mod weth;
 pub mod wif;
+pub mod wld;
 pub mod woo;
 pub mod xvs;
 pub mod yfi;
