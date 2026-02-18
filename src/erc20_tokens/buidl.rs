@@ -17,9 +17,38 @@ pub mod events {
     }
     impl Upgraded {
         const TOPIC_ID: [u8; 32] = [
-            188u8, 124u8, 215u8, 90u8, 32u8, 238u8, 39u8, 253u8, 154u8, 222u8, 186u8, 179u8, 32u8,
-            65u8, 247u8, 85u8, 33u8, 77u8, 188u8, 107u8, 255u8, 169u8, 12u8, 192u8, 34u8, 91u8,
-            57u8, 218u8, 46u8, 92u8, 45u8, 59u8,
+            188u8,
+            124u8,
+            215u8,
+            90u8,
+            32u8,
+            238u8,
+            39u8,
+            253u8,
+            154u8,
+            222u8,
+            186u8,
+            179u8,
+            32u8,
+            65u8,
+            247u8,
+            85u8,
+            33u8,
+            77u8,
+            188u8,
+            107u8,
+            255u8,
+            169u8,
+            12u8,
+            192u8,
+            34u8,
+            91u8,
+            57u8,
+            218u8,
+            46u8,
+            92u8,
+            45u8,
+            59u8,
         ];
         pub fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
             if log.topics.len() != 2usize {
@@ -31,7 +60,9 @@ pub mod events {
             return log.topics.get(0).expect("bounds already checked").as_ref() as &[u8]
                 == Self::TOPIC_ID;
         }
-        pub fn decode(log: &substreams_ethereum::pb::eth::v2::Log) -> Result<Self, String> {
+        pub fn decode(
+            log: &substreams_ethereum::pb::eth::v2::Log,
+        ) -> Result<Self, String> {
             Ok(Self {
                 implementation: ethabi::decode(
                         &[ethabi::ParamType::Address],
