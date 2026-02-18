@@ -3,6 +3,7 @@ pub mod dex;
 pub mod ens;
 pub mod erc20_tokens;
 pub mod erc721_tokens;
+pub mod lending;
 pub mod polymarket;
 pub mod seaport;
 pub mod token;
