@@ -10,4 +10,7 @@ pub mod pancakeswap;
 pub mod sunpump;
 pub mod sushiswap;
 pub mod uniswap;
+pub mod aerodrome;
+pub mod traderjoe;
+pub mod velodrome;
 pub mod zerox;
