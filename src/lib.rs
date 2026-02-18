@@ -1,3 +1,4 @@
+pub mod bridge;
 pub mod dca_dot_fun;
 pub mod dex;
 pub mod ens;
@@ -5,5 +6,7 @@ pub mod erc20_tokens;
 pub mod erc721_tokens;
 pub mod lending;
 pub mod polymarket;
+pub mod restaking;
 pub mod seaport;
+pub mod staking;
 pub mod token;
