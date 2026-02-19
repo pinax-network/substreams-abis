@@ -2,7 +2,20 @@
 
 ## How It Works
 
-`build.rs` uses `substreams-ethereum-abigen` to walk `./abi/` recursively and generate Rust bindings for every `.json` file. Generated `.rs` files go to the parallel path under `./src/`.
+Generated `.rs` files are **committed to git**. There is no `build.rs` — codegen is a separate step using `tools/codegen/`.
+
+## Codegen (only when adding new ABIs)
+
+```bash
+# Generate bindings for a specific protocol
+cd tools/codegen && cargo run -- ../../abi/dex/newprotocol/
+
+# Generate bindings for a single ABI file
+cd tools/codegen && cargo run -- ../../abi/dex/newprotocol/Router.json
+
+# Regenerate ALL bindings (slow, rarely needed)
+cd tools/codegen && cargo run
+```
 
 ## Build
 
@@ -10,7 +23,7 @@
 cargo build
 ```
 
-This runs `build.rs` first (generates `.rs` from ABI JSONs), then compiles. Takes ~1-2 minutes.
+Compiles the library from the already-generated `.rs` files. No codegen happens during build.
 
 ## Test
 
@@ -40,7 +53,7 @@ error[E0583]: file not found for module `newprotocol`
 ```
 error[E0583]: file not found for module `my_contract`
 ```
-**Fix:** The module name in `mod.rs` must match the generated `.rs` filename (lowercased file stem). Check what `build.rs` actually generated in `src/`.
+**Fix:** The module name in `mod.rs` must match the generated `.rs` filename (lowercased file stem). Check what the codegen tool generated in `src/`.
 
 ### Rust keyword collision
 ```
@@ -52,11 +65,11 @@ error: expected identifier, found keyword `yield`
 
 - **Rust version:** 1.85 (specified in `rust-toolchain.toml`)
 - **Target:** `wasm32-unknown-unknown` (for Substreams)
-- **CI:** Check + Test (no fmt — generated code isn't formatted)
+- **CI:** Single job — test + wasm32 check
 
 ## Before Pushing
 
 Always run:
-1. `cargo build` — verifies ABI generation + compilation
+1. `cargo build` — verifies compilation
 2. `cargo test` — verifies decoding works
 3. `cargo check --target wasm32-unknown-unknown` — verifies WASM compatibility

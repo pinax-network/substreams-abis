@@ -1,0 +1,14 @@
+[package]
+name = "substreams-abis-codegen"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[[bin]]
+name = "codegen"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1"
+substreams-ethereum = "0.11.1"
+walkdir = "2"
