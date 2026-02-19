@@ -1,7 +1,3 @@
-// @generated
-// Auto-generated module declarations for ERC-20 tokens.
-// Re-run 'bun run cli.ts update-modules' after adding new ABIs.
-
 pub mod aave;
 pub mod acred;
 pub mod aeweth;
@@ -66,8 +62,6 @@ pub mod toshi;
 pub mod tusd;
 pub mod uma;
 pub mod uni;
-pub mod usdc;
-pub mod usdt;
 pub mod vbill;
 pub mod vcnt;
 pub mod wbtc;
@@ -79,3 +73,5 @@ pub mod xvs;
 pub mod yfi;
 pub mod yusd;
 pub mod zro;
+pub mod usdc;
+pub mod usdt;
