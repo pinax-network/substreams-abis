@@ -7,4 +7,5 @@ pub mod negriskadapter;
 pub mod negriskctfexchange;
 pub mod relayhub;
 pub mod safeproxyfactory;
+#[path = "UmaCtfAdapter/mod.rs"]
 pub mod umactfadapter;
