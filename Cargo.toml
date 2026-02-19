@@ -11,10 +11,10 @@ homepage = "https://github.com/pinax-network/substreams-abis"
 
 [lib]
 crate-type = ["rlib"]
+doctest = false
 
 [dependencies]
 ethabi = "17.2.0"
 substreams = "0.7.6"
 substreams-ethereum = "0.11.1"
 num-bigint = "0.4"
-
