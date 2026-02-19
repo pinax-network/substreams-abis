@@ -92,3 +92,4 @@ abi/
 - **100+ contract ABIs**
 - **80+ ERC-20 token ABIs** (including USDC/USDT variants across chains)
 - **7 ERC-721 collection ABIs**
+
