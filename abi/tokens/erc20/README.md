@@ -19,6 +19,7 @@ Standard and custom ERC-20 token ABIs for [Substreams](https://substreams.stream
 | Blur | BLUR | `0x5283d291dbcf85356a21ba090e6db59121208b44` | — |
 | Bonk | BONK | `0x1151cb3d861920e07a38e03eead12c32178567f6` | Polygon, BSC, Arbitrum |
 | Brett (Base) | BRETT | — | Base, BSC |
+| Coinbase Wrapped Staked ETH | cbETH | `0xbe9895146f7af43049ca1c1ae358b0541ea49704` | Base, Arbitrum, Optimism, Polygon |
 | BlackRock USD (BUIDL) | BUIDL | `0x7712c34205737192402172409a8f7ccef8aa2aec` | Avalanche, BSC, Arbitrum, Optimism, Polygon |
 | Compound | COMP | `0xc00e94cb662c3520282e6f5717214004a7f26888` | Base, Avalanche, Polygon, BSC, Arbitrum |
 | Curve DAO Token | CRV | `0xd533a949740bb3306d119cc777fa900ba034cd52` | Fantom, Base, Polygon, Arbitrum, Optimism |
@@ -74,6 +75,7 @@ Standard and custom ERC-20 token ABIs for [Substreams](https://substreams.stream
 | ViciCoin | VCNT | `0x3be775b699fee916e7de117994358ff8f48e4569` | Polygon, BSC, Base, Avalanche, Optimism, Arbitrum |
 | Wrapped Bitcoin | WBTC | `0x2260fac5e5542a773aa44fbcfedf7c193bc2c599` | Avalanche, BSC, Base, Optimism |
 | Wrapped Ether | WETH | `0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2` | — |
+| Moonwell | WELL | — | Base |
 | dogwifhat | WIF | — | — |
 | Worldcoin | WLD | `0x163f8c2467924be0ae7b5347228cabf260318753` | Optimism |
 | WOO | WOO | `0x4691937a7508860f876c9c0a2a617e7d9e945d4b` | Fantom, Avalanche, Polygon, BSC, Arbitrum, Base |
@@ -167,6 +169,14 @@ Standard and custom ERC-20 token ABIs for [Substreams](https://substreams.stream
 
 - **Base:** `0x532f27101965dd16442e59d40670faf5ebb142e4`
 - **BSC:** `0xa7440029eca41deabd8775ef1d6086b37d4df8d6`
+
+### cbETH
+
+- **Ethereum:** `0xbe9895146f7af43049ca1c1ae358b0541ea49704`
+- **Base:** `0x2ae3f1ec7f1f5012cfeab0185bfc7aa3cf0dec22`
+- **Arbitrum:** `0x1debd73e752beaf79865fd6446b0c970eae7732f`
+- **Optimism:** `0xaddb6a0412de1ba0f936dcaeb8aaa24578dcf3b2`
+- **Polygon:** `0x4b4327db1600b8b1440163f667e199cef35385f5`
 
 ### BUIDL
 
@@ -496,6 +506,10 @@ Standard and custom ERC-20 token ABIs for [Substreams](https://substreams.stream
 ### WETH
 
 - **Ethereum:** `0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2`
+
+### WELL
+
+- **Base:** `0xa88594d404727625a9437c3f886c7643872296ae`
 
 ### WLD
 
