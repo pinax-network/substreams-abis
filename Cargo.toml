@@ -5,6 +5,9 @@ description = "Substreams ABIs"
 license = "MIT"
 edition = "2021"
 authors = ["Denis <denis@pinax.network>"]
+repository = "https://github.com/pinax-network/substreams-abis"
+documentation = "https://docs.rs/substreams-abis"
+homepage = "https://github.com/pinax-network/substreams-abis"
 
 [lib]
 crate-type = ["rlib"]
