@@ -7,6 +7,6 @@ state.yaml
 .DS_Store
 node_modules
 dist/
-bun.lock
+package-lock.json
 .env
 token-registry.json
