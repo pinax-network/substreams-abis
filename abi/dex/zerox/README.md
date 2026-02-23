@@ -10,12 +10,21 @@ Decentralized exchange infrastructure providing professional-grade liquidity agg
 
 ## Key Events
 
-The ExchangeProxy ABI uses a modular architecture — swap events are emitted through internal features and transformers rather than top-level events.
+- **`LimitOrderFilled`** — Emitted when a limit order is filled (maker, taker, tokens, amounts, fees, pool)
+- **`RfqOrderFilled`** — Emitted when an RFQ (Request for Quote) order is filled
+- **`OtcOrderFilled`** — Emitted when an OTC (over-the-counter) order is filled
+- **`TransformedERC20`** — Emitted on aggregated swaps through the TransformERC20 feature (taker, input/output token, amounts)
+- **`LiquidityProviderSwap`** — Emitted when a swap is routed through a liquidity provider
 
 ## Overview
 
 ### ExchangeProxy
-The main 0x entry point contract using a proxy/transformer pattern. Aggregates liquidity from on-chain DEXes and off-chain RFQ market makers to provide optimal swap execution.
+The main 0x entry point contract using a proxy/feature pattern. The proxy delegates to modular feature contracts that emit their own events. This ABI includes the swap-relevant events from the NativeOrdersFeature, TransformERC20Feature, and LiquidityProviderFeature.
+
+### Event Categories
+- **Order fills** (`LimitOrderFilled`, `RfqOrderFilled`, `OtcOrderFilled`): Direct peer-to-peer order settlement with maker/taker tokens and amounts
+- **Aggregated swaps** (`TransformedERC20`): Swaps routed through the 0x aggregator using transformer pipelines
+- **LP swaps** (`LiquidityProviderSwap`): Swaps routed directly to registered liquidity providers
 
 ## Links
 

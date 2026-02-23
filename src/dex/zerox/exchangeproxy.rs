@@ -6,28 +6,179 @@ const INTERNAL_ERR: &'static str = "`ethabi_derive` internal error";
 #[allow(dead_code, unused_imports, unused_variables)]
 pub mod functions {
     use super::INTERNAL_ERR;
+}
+/// Contract's events.
+#[allow(dead_code, unused_imports, unused_variables)]
+pub mod events {
+    use super::INTERNAL_ERR;
     #[derive(Debug, Clone, PartialEq)]
-    pub struct GetFunctionImplementation {
-        pub selector: [u8; 4usize],
+    pub struct LimitOrderFilled {
+        pub order_hash: [u8; 32usize],
+        pub maker: Vec<u8>,
+        pub taker: Vec<u8>,
+        pub fee_recipient: Vec<u8>,
+        pub maker_token: Vec<u8>,
+        pub taker_token: Vec<u8>,
+        pub taker_token_filled_amount: substreams::scalar::BigInt,
+        pub maker_token_filled_amount: substreams::scalar::BigInt,
+        pub taker_token_fee_filled_amount: substreams::scalar::BigInt,
+        pub protocol_fee_paid: substreams::scalar::BigInt,
+        pub pool: [u8; 32usize],
     }
-    impl GetFunctionImplementation {
-        const METHOD_ID: [u8; 4] = [151u8, 47u8, 221u8, 38u8];
-        pub fn decode(
-            call: &substreams_ethereum::pb::eth::v2::Call,
-        ) -> Result<Self, String> {
-            let maybe_data = call.input.get(4..);
-            if maybe_data.is_none() {
-                return Err("no data to decode".to_string());
+    impl LimitOrderFilled {
+        const TOPIC_ID: [u8; 32] = [
+            171u8,
+            97u8,
+            77u8,
+            43u8,
+            115u8,
+            133u8,
+            67u8,
+            192u8,
+            234u8,
+            33u8,
+            245u8,
+            99u8,
+            71u8,
+            207u8,
+            105u8,
+            106u8,
+            58u8,
+            12u8,
+            66u8,
+            167u8,
+            203u8,
+            236u8,
+            50u8,
+            18u8,
+            165u8,
+            202u8,
+            34u8,
+            164u8,
+            220u8,
+            255u8,
+            33u8,
+            36u8,
+        ];
+        pub fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
+            if log.topics.len() != 1usize {
+                return false;
             }
+            if log.data.len() != 352usize {
+                return false;
+            }
+            return log.topics.get(0).expect("bounds already checked").as_ref() as &[u8]
+                == Self::TOPIC_ID;
+        }
+        pub fn decode(
+            log: &substreams_ethereum::pb::eth::v2::Log,
+        ) -> Result<Self, String> {
             let mut values = ethabi::decode(
-                    &[ethabi::ParamType::FixedBytes(4usize)],
-                    maybe_data.unwrap(),
+                    &[
+                        ethabi::ParamType::FixedBytes(32usize),
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Uint(128usize),
+                        ethabi::ParamType::Uint(128usize),
+                        ethabi::ParamType::Uint(128usize),
+                        ethabi::ParamType::Uint(256usize),
+                        ethabi::ParamType::FixedBytes(32usize),
+                    ],
+                    log.data.as_ref(),
                 )
-                .map_err(|e| format!("unable to decode call.input: {:?}", e))?;
+                .map_err(|e| format!("unable to decode log.data: {:?}", e))?;
             values.reverse();
             Ok(Self {
-                selector: {
-                    let mut result = [0u8; 4];
+                order_hash: {
+                    let mut result = [0u8; 32];
+                    let v = values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_fixed_bytes()
+                        .expect(INTERNAL_ERR);
+                    result.copy_from_slice(&v);
+                    result
+                },
+                maker: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                taker: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                fee_recipient: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                maker_token: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                taker_token: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                taker_token_filled_amount: {
+                    let mut v = [0 as u8; 32];
+                    values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_uint()
+                        .expect(INTERNAL_ERR)
+                        .to_big_endian(v.as_mut_slice());
+                    substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
+                },
+                maker_token_filled_amount: {
+                    let mut v = [0 as u8; 32];
+                    values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_uint()
+                        .expect(INTERNAL_ERR)
+                        .to_big_endian(v.as_mut_slice());
+                    substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
+                },
+                taker_token_fee_filled_amount: {
+                    let mut v = [0 as u8; 32];
+                    values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_uint()
+                        .expect(INTERNAL_ERR)
+                        .to_big_endian(v.as_mut_slice());
+                    substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
+                },
+                protocol_fee_paid: {
+                    let mut v = [0 as u8; 32];
+                    values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_uint()
+                        .expect(INTERNAL_ERR)
+                        .to_big_endian(v.as_mut_slice());
+                    substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
+                },
+                pool: {
+                    let mut result = [0u8; 32];
                     let v = values
                         .pop()
                         .expect(INTERNAL_ERR)
@@ -38,84 +189,573 @@ pub mod functions {
                 },
             })
         }
-        pub fn encode(&self) -> Vec<u8> {
-            let data = ethabi::encode(
-                &[ethabi::Token::FixedBytes(self.selector.as_ref().to_vec())],
-            );
-            let mut encoded = Vec::with_capacity(4 + data.len());
-            encoded.extend(Self::METHOD_ID);
-            encoded.extend(data);
-            encoded
+    }
+    impl substreams_ethereum::Event for LimitOrderFilled {
+        const NAME: &'static str = "LimitOrderFilled";
+        fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
+            Self::match_log(log)
         }
-        pub fn output_call(
-            call: &substreams_ethereum::pb::eth::v2::Call,
-        ) -> Result<Vec<u8>, String> {
-            Self::output(call.return_data.as_ref())
+        fn decode(log: &substreams_ethereum::pb::eth::v2::Log) -> Result<Self, String> {
+            Self::decode(log)
         }
-        pub fn output(data: &[u8]) -> Result<Vec<u8>, String> {
-            let mut values = ethabi::decode(&[ethabi::ParamType::Address], data.as_ref())
-                .map_err(|e| format!("unable to decode output data: {:?}", e))?;
-            Ok(
-                values
+    }
+    #[derive(Debug, Clone, PartialEq)]
+    pub struct LiquidityProviderSwap {
+        pub input_token: Vec<u8>,
+        pub output_token: Vec<u8>,
+        pub input_token_amount: substreams::scalar::BigInt,
+        pub output_token_amount: substreams::scalar::BigInt,
+        pub provider: Vec<u8>,
+        pub recipient: Vec<u8>,
+    }
+    impl LiquidityProviderSwap {
+        const TOPIC_ID: [u8; 32] = [
+            64u8,
+            166u8,
+            186u8,
+            149u8,
+            19u8,
+            208u8,
+            158u8,
+            52u8,
+            136u8,
+            19u8,
+            94u8,
+            14u8,
+            13u8,
+            16u8,
+            226u8,
+            212u8,
+            56u8,
+            43u8,
+            121u8,
+            39u8,
+            32u8,
+            21u8,
+            91u8,
+            20u8,
+            76u8,
+            190u8,
+            168u8,
+            154u8,
+            201u8,
+            219u8,
+            109u8,
+            52u8,
+        ];
+        pub fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
+            if log.topics.len() != 1usize {
+                return false;
+            }
+            if log.data.len() != 192usize {
+                return false;
+            }
+            return log.topics.get(0).expect("bounds already checked").as_ref() as &[u8]
+                == Self::TOPIC_ID;
+        }
+        pub fn decode(
+            log: &substreams_ethereum::pb::eth::v2::Log,
+        ) -> Result<Self, String> {
+            let mut values = ethabi::decode(
+                    &[
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Uint(256usize),
+                        ethabi::ParamType::Uint(256usize),
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                    ],
+                    log.data.as_ref(),
+                )
+                .map_err(|e| format!("unable to decode log.data: {:?}", e))?;
+            values.reverse();
+            Ok(Self {
+                input_token: values
                     .pop()
-                    .expect("one output data should have existed")
+                    .expect(INTERNAL_ERR)
                     .into_address()
                     .expect(INTERNAL_ERR)
                     .as_bytes()
                     .to_vec(),
-            )
-        }
-        pub fn match_call(call: &substreams_ethereum::pb::eth::v2::Call) -> bool {
-            match call.input.get(0..4) {
-                Some(signature) => Self::METHOD_ID == signature,
-                None => false,
-            }
-        }
-        pub fn call(&self, address: Vec<u8>) -> Option<Vec<u8>> {
-            use substreams_ethereum::pb::eth::rpc;
-            let rpc_calls = rpc::RpcCalls {
-                calls: vec![rpc::RpcCall { to_addr : address, data : self.encode(), }],
-            };
-            let responses = substreams_ethereum::rpc::eth_call(&rpc_calls).responses;
-            let response = responses.get(0).expect("one response should have existed");
-            if response.failed {
-                return None;
-            }
-            match Self::output(response.raw.as_ref()) {
-                Ok(data) => Some(data),
-                Err(err) => {
-                    use substreams_ethereum::Function;
-                    substreams::log::info!(
-                        "Call output for function `{}` failed to decode with error: {}",
-                        Self::NAME, err
-                    );
-                    None
-                }
-            }
+                output_token: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                input_token_amount: {
+                    let mut v = [0 as u8; 32];
+                    values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_uint()
+                        .expect(INTERNAL_ERR)
+                        .to_big_endian(v.as_mut_slice());
+                    substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
+                },
+                output_token_amount: {
+                    let mut v = [0 as u8; 32];
+                    values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_uint()
+                        .expect(INTERNAL_ERR)
+                        .to_big_endian(v.as_mut_slice());
+                    substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
+                },
+                provider: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                recipient: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+            })
         }
     }
-    impl substreams_ethereum::Function for GetFunctionImplementation {
-        const NAME: &'static str = "getFunctionImplementation";
-        fn match_call(call: &substreams_ethereum::pb::eth::v2::Call) -> bool {
-            Self::match_call(call)
+    impl substreams_ethereum::Event for LiquidityProviderSwap {
+        const NAME: &'static str = "LiquidityProviderSwap";
+        fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
+            Self::match_log(log)
         }
-        fn decode(
-            call: &substreams_ethereum::pb::eth::v2::Call,
+        fn decode(log: &substreams_ethereum::pb::eth::v2::Log) -> Result<Self, String> {
+            Self::decode(log)
+        }
+    }
+    #[derive(Debug, Clone, PartialEq)]
+    pub struct OtcOrderFilled {
+        pub order_hash: [u8; 32usize],
+        pub maker: Vec<u8>,
+        pub taker: Vec<u8>,
+        pub maker_token: Vec<u8>,
+        pub taker_token: Vec<u8>,
+        pub maker_token_filled_amount: substreams::scalar::BigInt,
+        pub taker_token_filled_amount: substreams::scalar::BigInt,
+    }
+    impl OtcOrderFilled {
+        const TOPIC_ID: [u8; 32] = [
+            172u8,
+            117u8,
+            247u8,
+            115u8,
+            227u8,
+            169u8,
+            47u8,
+            26u8,
+            2u8,
+            177u8,
+            33u8,
+            52u8,
+            214u8,
+            94u8,
+            31u8,
+            71u8,
+            248u8,
+            161u8,
+            78u8,
+            171u8,
+            228u8,
+            234u8,
+            241u8,
+            226u8,
+            70u8,
+            36u8,
+            145u8,
+            142u8,
+            106u8,
+            139u8,
+            38u8,
+            159u8,
+        ];
+        pub fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
+            if log.topics.len() != 1usize {
+                return false;
+            }
+            if log.data.len() != 224usize {
+                return false;
+            }
+            return log.topics.get(0).expect("bounds already checked").as_ref() as &[u8]
+                == Self::TOPIC_ID;
+        }
+        pub fn decode(
+            log: &substreams_ethereum::pb::eth::v2::Log,
         ) -> Result<Self, String> {
-            Self::decode(call)
-        }
-        fn encode(&self) -> Vec<u8> {
-            self.encode()
+            let mut values = ethabi::decode(
+                    &[
+                        ethabi::ParamType::FixedBytes(32usize),
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Uint(128usize),
+                        ethabi::ParamType::Uint(128usize),
+                    ],
+                    log.data.as_ref(),
+                )
+                .map_err(|e| format!("unable to decode log.data: {:?}", e))?;
+            values.reverse();
+            Ok(Self {
+                order_hash: {
+                    let mut result = [0u8; 32];
+                    let v = values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_fixed_bytes()
+                        .expect(INTERNAL_ERR);
+                    result.copy_from_slice(&v);
+                    result
+                },
+                maker: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                taker: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                maker_token: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                taker_token: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                maker_token_filled_amount: {
+                    let mut v = [0 as u8; 32];
+                    values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_uint()
+                        .expect(INTERNAL_ERR)
+                        .to_big_endian(v.as_mut_slice());
+                    substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
+                },
+                taker_token_filled_amount: {
+                    let mut v = [0 as u8; 32];
+                    values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_uint()
+                        .expect(INTERNAL_ERR)
+                        .to_big_endian(v.as_mut_slice());
+                    substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
+                },
+            })
         }
     }
-    impl substreams_ethereum::rpc::RPCDecodable<Vec<u8>> for GetFunctionImplementation {
-        fn output(data: &[u8]) -> Result<Vec<u8>, String> {
-            Self::output(data)
+    impl substreams_ethereum::Event for OtcOrderFilled {
+        const NAME: &'static str = "OtcOrderFilled";
+        fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
+            Self::match_log(log)
+        }
+        fn decode(log: &substreams_ethereum::pb::eth::v2::Log) -> Result<Self, String> {
+            Self::decode(log)
         }
     }
-}
-/// Contract's events.
-#[allow(dead_code, unused_imports, unused_variables)]
-pub mod events {
-    use super::INTERNAL_ERR;
+    #[derive(Debug, Clone, PartialEq)]
+    pub struct RfqOrderFilled {
+        pub order_hash: [u8; 32usize],
+        pub maker: Vec<u8>,
+        pub taker: Vec<u8>,
+        pub maker_token: Vec<u8>,
+        pub taker_token: Vec<u8>,
+        pub taker_token_filled_amount: substreams::scalar::BigInt,
+        pub maker_token_filled_amount: substreams::scalar::BigInt,
+        pub pool: [u8; 32usize],
+    }
+    impl RfqOrderFilled {
+        const TOPIC_ID: [u8; 32] = [
+            130u8,
+            159u8,
+            169u8,
+            157u8,
+            148u8,
+            220u8,
+            70u8,
+            54u8,
+            146u8,
+            91u8,
+            56u8,
+            99u8,
+            46u8,
+            98u8,
+            87u8,
+            54u8,
+            166u8,
+            20u8,
+            193u8,
+            84u8,
+            213u8,
+            80u8,
+            6u8,
+            183u8,
+            171u8,
+            107u8,
+            234u8,
+            151u8,
+            156u8,
+            33u8,
+            12u8,
+            50u8,
+        ];
+        pub fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
+            if log.topics.len() != 1usize {
+                return false;
+            }
+            if log.data.len() != 256usize {
+                return false;
+            }
+            return log.topics.get(0).expect("bounds already checked").as_ref() as &[u8]
+                == Self::TOPIC_ID;
+        }
+        pub fn decode(
+            log: &substreams_ethereum::pb::eth::v2::Log,
+        ) -> Result<Self, String> {
+            let mut values = ethabi::decode(
+                    &[
+                        ethabi::ParamType::FixedBytes(32usize),
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Uint(128usize),
+                        ethabi::ParamType::Uint(128usize),
+                        ethabi::ParamType::FixedBytes(32usize),
+                    ],
+                    log.data.as_ref(),
+                )
+                .map_err(|e| format!("unable to decode log.data: {:?}", e))?;
+            values.reverse();
+            Ok(Self {
+                order_hash: {
+                    let mut result = [0u8; 32];
+                    let v = values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_fixed_bytes()
+                        .expect(INTERNAL_ERR);
+                    result.copy_from_slice(&v);
+                    result
+                },
+                maker: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                taker: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                maker_token: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                taker_token: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                taker_token_filled_amount: {
+                    let mut v = [0 as u8; 32];
+                    values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_uint()
+                        .expect(INTERNAL_ERR)
+                        .to_big_endian(v.as_mut_slice());
+                    substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
+                },
+                maker_token_filled_amount: {
+                    let mut v = [0 as u8; 32];
+                    values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_uint()
+                        .expect(INTERNAL_ERR)
+                        .to_big_endian(v.as_mut_slice());
+                    substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
+                },
+                pool: {
+                    let mut result = [0u8; 32];
+                    let v = values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_fixed_bytes()
+                        .expect(INTERNAL_ERR);
+                    result.copy_from_slice(&v);
+                    result
+                },
+            })
+        }
+    }
+    impl substreams_ethereum::Event for RfqOrderFilled {
+        const NAME: &'static str = "RfqOrderFilled";
+        fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
+            Self::match_log(log)
+        }
+        fn decode(log: &substreams_ethereum::pb::eth::v2::Log) -> Result<Self, String> {
+            Self::decode(log)
+        }
+    }
+    #[derive(Debug, Clone, PartialEq)]
+    pub struct TransformedErc20 {
+        pub taker: Vec<u8>,
+        pub input_token: Vec<u8>,
+        pub output_token: Vec<u8>,
+        pub input_token_amount: substreams::scalar::BigInt,
+        pub output_token_amount: substreams::scalar::BigInt,
+    }
+    impl TransformedErc20 {
+        const TOPIC_ID: [u8; 32] = [
+            15u8,
+            102u8,
+            114u8,
+            247u8,
+            138u8,
+            89u8,
+            186u8,
+            142u8,
+            94u8,
+            91u8,
+            93u8,
+            56u8,
+            223u8,
+            62u8,
+            188u8,
+            103u8,
+            243u8,
+            199u8,
+            146u8,
+            226u8,
+            201u8,
+            37u8,
+            155u8,
+            141u8,
+            151u8,
+            215u8,
+            240u8,
+            13u8,
+            215u8,
+            139u8,
+            161u8,
+            179u8,
+        ];
+        pub fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
+            if log.topics.len() != 2usize {
+                return false;
+            }
+            if log.data.len() != 128usize {
+                return false;
+            }
+            return log.topics.get(0).expect("bounds already checked").as_ref() as &[u8]
+                == Self::TOPIC_ID;
+        }
+        pub fn decode(
+            log: &substreams_ethereum::pb::eth::v2::Log,
+        ) -> Result<Self, String> {
+            let mut values = ethabi::decode(
+                    &[
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Uint(256usize),
+                        ethabi::ParamType::Uint(256usize),
+                    ],
+                    log.data.as_ref(),
+                )
+                .map_err(|e| format!("unable to decode log.data: {:?}", e))?;
+            values.reverse();
+            Ok(Self {
+                taker: ethabi::decode(
+                        &[ethabi::ParamType::Address],
+                        log.topics[1usize].as_ref(),
+                    )
+                    .map_err(|e| {
+                        format!(
+                            "unable to decode param 'taker' from topic of type 'address': {:?}",
+                            e
+                        )
+                    })?
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                input_token: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                output_token: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                input_token_amount: {
+                    let mut v = [0 as u8; 32];
+                    values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_uint()
+                        .expect(INTERNAL_ERR)
+                        .to_big_endian(v.as_mut_slice());
+                    substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
+                },
+                output_token_amount: {
+                    let mut v = [0 as u8; 32];
+                    values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_uint()
+                        .expect(INTERNAL_ERR)
+                        .to_big_endian(v.as_mut_slice());
+                    substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
+                },
+            })
+        }
+    }
+    impl substreams_ethereum::Event for TransformedErc20 {
+        const NAME: &'static str = "TransformedERC20";
+        fn match_log(log: &substreams_ethereum::pb::eth::v2::Log) -> bool {
+            Self::match_log(log)
+        }
+        fn decode(log: &substreams_ethereum::pb::eth::v2::Log) -> Result<Self, String> {
+            Self::decode(log)
+        }
+    }
 }
