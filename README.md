@@ -1,142 +1,78 @@
 # Substreams ABIs
 
-This directory contains standard ABIs for the various blockchains that Substreams supports.
+`substreams-abis` is a Rust crate plus companion Bun/TypeScript tooling for maintaining ABI files and generated Substreams Ethereum bindings.
 
-## EVM
+For a maintainer-oriented map of edit points and workflows, see `docs/repo-navigation.md`.
 
-> Ethereum, Base, BSC, ArbOne, Polygon,...
+## Repository layout
 
-- [x] `ERC-20`
-- [x] `ERC-721`
-- [x] `ERC-1155`
-- [x] `ERC-2981`
-- [x] `ERC-4626`
-- [x] `ERC-777`
-- [x] `ERC-3643`
+- `abi/`: source ABI JSON files (plus some fetched Solidity artifacts under token folders)
+- `src/`: generated and curated Rust modules exposed by the crate
+- `tests/`: Rust integration tests that decode real-world logs with generated bindings
+- `lib/` + `cli.ts`: Bun/TypeScript CLI for ABI ingestion and maintenance tasks
+- `tools/codegen/`: Rust ABI → binding generator used to write files into `src/`
 
-## EVM Tokens
+## Coverage areas
 
-### Stablecoins & Wrapped Assets
+The repository currently includes modules and ABIs for:
 
-- [x] SAI/DAI
-- [x] USDC
-- [x] USDT
-- [x] WETH
-- [x] WBTC
-- [x] stETH
+- standards and extensions (`standard`)
+- tokens and collections (`tokens`)
+- DEXs and aggregators (`dex`)
+- bridges (`bridge`)
+- lending (`lending`)
+- naming (`naming`)
+- oracles (`oracle`)
+- perps (`perps`)
+- prediction markets (`prediction`)
+- restaking (`restaking`)
+- stablecoin systems (`stablecoin`)
+- staking (`staking`)
+- yield strategies (`yield`)
 
-### ETH Mainnet Tokens
-
-- [x] SHIB (Shiba Inu)
-- [x] LINK (Chainlink)
-- [x] UNI (Uniswap)
-- [x] MATIC (Polygon)
-- [x] ARB (Arbitrum)
-- [x] LDO (Lido DAO)
-- [x] AAVE (Aave)
-- [x] MKR (Maker)
-- [x] CRV (Curve DAO)
-- [x] PEPE (Pepe)
-- [x] APE (ApeCoin)
-- [x] SNX (Synthetix)
-- [x] COMP (Compound)
-- [x] GRT (The Graph)
-- [x] FET (Fetch.ai)
-
-### Base Chain Tokens
-
-- [x] AERO (Aerodrome)
-- [x] BRETT (Brett)
-- [x] DEGEN (Degen)
-- [x] TOSHI (Toshi)
-- [x] WELL (Moonwell)
-
-## EVM Contracts
-
-- [x] `Balancer`
-- [x] `CurveFi`
-- [x] `Bancor`
-- [x] `Uniswap V1`
-- [x] `Uniswap V2`
-  - [x] `Pair`
-  - [x] `Factory`
-- [x] `Uniswap V3`
-  - [x] `Pool`
-  - [x] `Factory`
-- [x] `Uniswap V4`
-  - [x] `PoolManager`
-- [x] `ENS V1`
-  - [x] `ENSRegistry`
-  - [x] `EthRegistrarController`
-  - [x] `PublicResolver`
-  - [x] `ReverseRegistrar`
-  - [x] `NameWrapper`
-- [x] `Seaport`
-  - [x] `OrderFulfilled`
-  - [x] `OrderCancelled`
-  - [x] `OrderValidated`
-  - [x] `OrdersMatched`
-
-## NFTs Collections
-
-- [x] Azuki
-- [x] BoredApeYachtClub
-- [x] Doodles
-- [x] LilPudgys
-- [x] MutantApeYachtClub
-- [x] PudgyPenguins
-
-## Tron EVM
-
-- [x] SunSwap
-- [x] JustSwap
-
-## SunSwap V2
-
-- Factory: `TKWJdrQkqHisa1X8HUdHEfREvTzw4pMAaY`
-- Pair contract (for USDT/TRX pair): `TFGDbUyP8xez44C76fin3bn3Ss6jugoUwJ`
-- ~~Router: `TKzxdSv2FZKQrEqkKVgp5DcwEXBEKMg2Ax`~~
-- ~~Smart routing (aggregator): `TJ4NNy8xZEqsowCBhLvZ45LCqPdGjkET5j`~~
-
-## JustSwap V1
-
-- Exchange: `TPavNqt8xhoBp4NNBSdEx3FBP24NBfVRxU`
-
-## How to contribute?
-
-- Compile the ABI from the source code.
-- Add the ABI to the corresponding directory.
-  - Only include `abi` section in the JSON file.
-  - Name the file as the contract name (ex: `evm/token/ERC20.json`).
-- Build `cargo build`
-- Update/add new contract to `mod.rs` file(s).
-- Run `cargo test` to ensure everything is working.
-- Create a PR.
-
-## Quickstart
+## Quickstart (Rust)
 
 ```rust
-...
-use substreams_abi::evm::token::erc20::events::Transfer;
+use substreams_abis::standard::erc20::events::Transfer;
 
-// Iterates over successful transactions
 for trx in block.transactions() {
-  // Iterates over all logs in the transaction, excluding those from calls that were not recorded to the chain's state.
-  // The logs are sorted by their ordinal and returned as pairs of (log, call) where call is the call that produced the log.
-  for (log, call_view) in trx.logs_with_calls() {
-    // -- Transfer --
+  for (log, _call_view) in trx.logs_with_calls() {
     let transfer = match Transfer::decode(&log) {
-        Some(transfer) => transfer,
-        None => continue,
+      Ok(transfer) => transfer,
+      Err(_) => continue,
     };
-    // transfer.from => 6D1D1ebe7dA598194293784252659e862d55b52c
-    // transfer.to => c7bBeC68d12a0d1830360F8Ec58fA599bA1b0e9b
-    // transfer.value => 3400000000
+
+    // transfer.from
+    // transfer.to
+    // transfer.value
   }
 }
 ```
 
-## CLI Usage
+## Common maintenance workflow
+
+1. Add or update ABI JSON files in the relevant `abi/...` directory.
+2. Regenerate Rust bindings:
+
+   ```bash
+   cargo run --manifest-path tools/codegen/Cargo.toml
+   ```
+
+   You can also target only specific files or folders:
+
+   ```bash
+   cargo run --manifest-path tools/codegen/Cargo.toml -- abi/dex/uniswap/v4
+   ```
+
+3. Update `mod.rs` files where needed (for new modules).
+4. Run verification:
+
+   ```bash
+   cargo test
+   cargo check --target wasm32-unknown-unknown
+   ```
+
+## CLI usage (Bun)
 
 ```bash
 bun run cli.ts fetch-token SHIB 0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE --chain eth
