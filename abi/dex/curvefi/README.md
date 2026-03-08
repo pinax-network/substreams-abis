@@ -6,6 +6,7 @@ Stablecoin-focused AMM optimized for low-slippage swaps between pegged assets, a
 
 | Contract | Address | Chain | Explorer |
 |----------|---------|-------|----------|
+| LegacyTriPool (legacy 3pool binding) | `0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7` | Ethereum | [Etherscan](https://etherscan.io/address/0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7) |
 | StableSwap (3pool) | `0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7` | Ethereum | [Etherscan](https://etherscan.io/address/0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7) |
 | CryptoSwap (TriCrypto2) | `0xD51a44d3FaE010294C616388b506AcdA1bfAAE46` | Ethereum | [Etherscan](https://etherscan.io/address/0xD51a44d3FaE010294C616388b506AcdA1bfAAE46) |
 | Factory | Various deployments | Ethereum | — |
@@ -23,6 +24,9 @@ Stablecoin-focused AMM optimized for low-slippage swaps between pegged assets, a
 
 ### StableSwap
 Pool implementation for assets that trade near parity (e.g., USDC/USDT/DAI). Uses the StableSwap invariant for minimal slippage.
+
+### LegacyTriPool
+Dedicated binding for the original Curve 3pool / TriPool contract shape. The ABI matches the legacy stable-swap pool interface, but keeping it separate gives downstream code an explicit contract name to target.
 
 ### CryptoSwap
 Pool implementation for volatile asset pairs (e.g., ETH/BTC/USDT). Uses a modified invariant with internal price oracles.
