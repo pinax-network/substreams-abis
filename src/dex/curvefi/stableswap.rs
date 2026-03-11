@@ -4867,3 +4867,156 @@ pub mod events {
         }
     }
 }
+
+/// Contract's constructor arguments.
+#[allow(dead_code, unused_imports, unused_variables)]
+pub mod constructor {
+    use super::INTERNAL_ERR;
+    #[derive(Debug, Clone, PartialEq)]
+    pub struct Constructor {
+        pub owner: Vec<u8>,
+        pub coins: [Vec<u8>; 3usize],
+        pub pool_token: Vec<u8>,
+        pub a: substreams::scalar::BigInt,
+        pub fee: substreams::scalar::BigInt,
+        pub admin_fee: substreams::scalar::BigInt,
+    }
+    impl Constructor {
+        pub fn decode(data: &[u8]) -> Result<Self, String> {
+            let mut values = ethabi::decode(
+                    &[
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::FixedArray(
+                            Box::new(ethabi::ParamType::Address),
+                            3usize,
+                        ),
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Uint(256usize),
+                        ethabi::ParamType::Uint(256usize),
+                        ethabi::ParamType::Uint(256usize),
+                    ],
+                    data.as_ref(),
+                )
+                .map_err(|e| format!("unable to decode constructor input: {:?}", e))?;
+            values.reverse();
+            Ok(Self {
+                owner: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                coins: {
+                    let mut iter = values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_fixed_array()
+                        .expect(INTERNAL_ERR)
+                        .into_iter()
+                        .map(|inner| {
+                            inner.into_address().expect(INTERNAL_ERR).as_bytes().to_vec()
+                        });
+                    [
+                        iter.next().expect(INTERNAL_ERR),
+                        iter.next().expect(INTERNAL_ERR),
+                        iter.next().expect(INTERNAL_ERR),
+                    ]
+                },
+                pool_token: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                a: {
+                    let mut v = [0 as u8; 32];
+                    values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_uint()
+                        .expect(INTERNAL_ERR)
+                        .to_big_endian(v.as_mut_slice());
+                    substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
+                },
+                fee: {
+                    let mut v = [0 as u8; 32];
+                    values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_uint()
+                        .expect(INTERNAL_ERR)
+                        .to_big_endian(v.as_mut_slice());
+                    substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
+                },
+                admin_fee: {
+                    let mut v = [0 as u8; 32];
+                    values
+                        .pop()
+                        .expect(INTERNAL_ERR)
+                        .into_uint()
+                        .expect(INTERNAL_ERR)
+                        .to_big_endian(v.as_mut_slice());
+                    substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
+                },
+            })
+        }
+        pub fn encode(&self) -> Vec<u8> {
+            ethabi::encode(
+                &[
+                    ethabi::Token::Address(ethabi::Address::from_slice(&self.owner)),
+                    {
+                        let v = self
+                            .coins
+                            .iter()
+                            .map(|inner| ethabi::Token::Address(
+                                ethabi::Address::from_slice(&inner),
+                            ))
+                            .collect();
+                        ethabi::Token::FixedArray(v)
+                    },
+                    ethabi::Token::Address(
+                        ethabi::Address::from_slice(&self.pool_token),
+                    ),
+                    ethabi::Token::Uint(
+                        ethabi::Uint::from_big_endian(
+                            match self.a.clone().to_bytes_be() {
+                                (num_bigint::Sign::Plus, bytes) => bytes,
+                                (num_bigint::Sign::NoSign, bytes) => bytes,
+                                (num_bigint::Sign::Minus, _) => {
+                                    panic!("negative numbers are not supported")
+                                }
+                            }
+                                .as_slice(),
+                        ),
+                    ),
+                    ethabi::Token::Uint(
+                        ethabi::Uint::from_big_endian(
+                            match self.fee.clone().to_bytes_be() {
+                                (num_bigint::Sign::Plus, bytes) => bytes,
+                                (num_bigint::Sign::NoSign, bytes) => bytes,
+                                (num_bigint::Sign::Minus, _) => {
+                                    panic!("negative numbers are not supported")
+                                }
+                            }
+                                .as_slice(),
+                        ),
+                    ),
+                    ethabi::Token::Uint(
+                        ethabi::Uint::from_big_endian(
+                            match self.admin_fee.clone().to_bytes_be() {
+                                (num_bigint::Sign::Plus, bytes) => bytes,
+                                (num_bigint::Sign::NoSign, bytes) => bytes,
+                                (num_bigint::Sign::Minus, _) => {
+                                    panic!("negative numbers are not supported")
+                                }
+                            }
+                                .as_slice(),
+                        ),
+                    ),
+                ],
+            )
+        }
+    }
+}

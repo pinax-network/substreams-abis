@@ -1039,7 +1039,13 @@ name = "substreams-abis-codegen"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "ethabi",
+ "heck 0.4.1",
+ "prettyplease 0.2.37",
+ "proc-macro2",
+ "quote",
  "substreams-ethereum",
+ "syn 2.0.116",
  "walkdir",
 ]
 
