@@ -1,3 +1,10 @@
+# v1.5.1
+
+## Fixes
+
+- Fixed the CurveFi `StableSwap` constructor deployment-input regression test so constructor arguments are sliced correctly from real creation input.
+- Corrected the expected StableSwap constructor `fee` value in the deployment-input test to match the on-chain payload.
+
 # v1.1.0
 
 ## ✨ New Protocols
