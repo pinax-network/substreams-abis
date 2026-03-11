@@ -4931,7 +4931,7 @@ pub mod constructor {
                     .as_bytes()
                     .to_vec(),
                 a: {
-                    let mut v = [0 as u8; 32];
+                    let mut v = [0u8; 32];
                     values
                         .pop()
                         .expect(INTERNAL_ERR)
@@ -4941,7 +4941,7 @@ pub mod constructor {
                     substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
                 },
                 fee: {
-                    let mut v = [0 as u8; 32];
+                    let mut v = [0u8; 32];
                     values
                         .pop()
                         .expect(INTERNAL_ERR)
@@ -4951,7 +4951,7 @@ pub mod constructor {
                     substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
                 },
                 admin_fee: {
-                    let mut v = [0 as u8; 32];
+                    let mut v = [0u8; 32];
                     values
                         .pop()
                         .expect(INTERNAL_ERR)

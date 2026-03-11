@@ -381,14 +381,14 @@ fn from_token(kind: &ParamType, token: &TokenStream) -> TokenStream {
         }
         ParamType::Int(_) => quote! {
             {
-                let mut v = [0 as u8; 32];
+                let mut v = [0u8; 32];
                 #token.into_int().expect(INTERNAL_ERR).to_big_endian(v.as_mut_slice());
                 substreams::scalar::BigInt::from_signed_bytes_be(&v)
             }
         },
         ParamType::Uint(_) => quote! {
             {
-                let mut v = [0 as u8; 32];
+                let mut v = [0u8; 32];
                 #token.into_uint().expect(INTERNAL_ERR).to_big_endian(v.as_mut_slice());
                 substreams::scalar::BigInt::from_unsigned_bytes_be(&v)
             }
