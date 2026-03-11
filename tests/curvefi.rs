@@ -83,14 +83,13 @@ mod tests {
         let deployment_input = deployment_input.strip_prefix("0x").unwrap();
         let constructor_input_len = 32 * 8;
         let constructor_input_hex_len = constructor_input_len * 2;
-        let constructor_input = decode_hex(&format!(
-            "0{}",
-            &deployment_input[deployment_input.len() - (constructor_input_hex_len - 1)..]
-        ));
-        let constructor = Constructor::decode(&constructor_input)
-            .expect("normalized constructor args should decode");
+        assert_eq!(deployment_input.len() % 2, 0);
 
-        assert_eq!(deployment_input.len() % 2, 1);
+        let constructor_input =
+            decode_hex(&deployment_input[deployment_input.len() - constructor_input_hex_len..]);
+        let constructor = Constructor::decode(&constructor_input)
+            .expect("constructor args should decode");
+
         assert_eq!(constructor.encode(), constructor_input);
         assert_eq!(constructor.owner, hex!("6e8f6d1da6232d5e40b0b8758a0145d6c5123eb7"));
         assert_eq!(
@@ -106,7 +105,7 @@ mod tests {
             hex!("6c3f90f043a72fa612cbac8115ee7e52bde6e490")
         );
         assert_eq!(constructor.a, BigInt::from_str("100").unwrap());
-        assert_eq!(constructor.fee, BigInt::from_str("250000").unwrap());
+        assert_eq!(constructor.fee, BigInt::from_str("4000000").unwrap());
         assert_eq!(constructor.admin_fee, BigInt::from_str("0").unwrap());
     }
 }
