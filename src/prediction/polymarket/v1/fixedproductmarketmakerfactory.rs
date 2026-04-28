@@ -1116,3 +1116,19 @@ pub mod events {
         }
     }
 }
+
+/// Contract's constructor arguments.
+#[allow(dead_code, unused_imports, unused_variables)]
+pub mod constructor {
+    use super::INTERNAL_ERR;
+    #[derive(Debug, Clone, PartialEq)]
+    pub struct Constructor {}
+    impl Constructor {
+        pub fn decode(data: &[u8]) -> Result<Self, String> {
+            Ok(Self {})
+        }
+        pub fn encode(&self) -> Vec<u8> {
+            ethabi::encode(&[])
+        }
+    }
+}

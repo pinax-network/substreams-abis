@@ -22,6 +22,7 @@ This document captures durable, tool-agnostic knowledge for navigating and editi
 5. CI runs `cargo test` and `cargo check --target wasm32-unknown-unknown`.
 
 The `abi/` and `src/` trees are intentionally parallel, so protocol/category placement in one generally indicates where the counterpart belongs in the other.
+Some protocols also use explicit version scopes for major deployments. For example, Polymarket ABIs and bindings live under `prediction/polymarket/v1` and `prediction/polymarket/v2`; unchanged contracts stay in the older version scope instead of being duplicated into a newer one.
 
 ## Common task routing (where to edit for X)
 

@@ -1130,3 +1130,52 @@ pub mod events {
         }
     }
 }
+
+/// Contract's constructor arguments.
+#[allow(dead_code, unused_imports, unused_variables)]
+pub mod constructor {
+    use super::INTERNAL_ERR;
+    #[derive(Debug, Clone, PartialEq)]
+    pub struct Constructor {
+        pub master_copy: Vec<u8>,
+        pub fallback_handler: Vec<u8>,
+    }
+    impl Constructor {
+        pub fn decode(data: &[u8]) -> Result<Self, String> {
+            let mut values = ethabi::decode(
+                    &[ethabi::ParamType::Address, ethabi::ParamType::Address],
+                    data.as_ref(),
+                )
+                .map_err(|e| format!("unable to decode constructor input: {:?}", e))?;
+            values.reverse();
+            Ok(Self {
+                master_copy: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                fallback_handler: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+            })
+        }
+        pub fn encode(&self) -> Vec<u8> {
+            ethabi::encode(
+                &[
+                    ethabi::Token::Address(
+                        ethabi::Address::from_slice(&self.master_copy),
+                    ),
+                    ethabi::Token::Address(
+                        ethabi::Address::from_slice(&self.fallback_handler),
+                    ),
+                ],
+            )
+        }
+    }
+}

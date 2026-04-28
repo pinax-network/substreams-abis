@@ -7763,3 +7763,89 @@ pub mod events {
         }
     }
 }
+
+/// Contract's constructor arguments.
+#[allow(dead_code, unused_imports, unused_variables)]
+pub mod constructor {
+    use super::INTERNAL_ERR;
+    #[derive(Debug, Clone, PartialEq)]
+    pub struct Constructor {
+        pub collateral: Vec<u8>,
+        pub ctf: Vec<u8>,
+        pub neg_risk_adapter: Vec<u8>,
+        pub proxy_factory: Vec<u8>,
+        pub safe_factory: Vec<u8>,
+    }
+    impl Constructor {
+        pub fn decode(data: &[u8]) -> Result<Self, String> {
+            let mut values = ethabi::decode(
+                    &[
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                        ethabi::ParamType::Address,
+                    ],
+                    data.as_ref(),
+                )
+                .map_err(|e| format!("unable to decode constructor input: {:?}", e))?;
+            values.reverse();
+            Ok(Self {
+                collateral: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                ctf: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                neg_risk_adapter: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                proxy_factory: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+                safe_factory: values
+                    .pop()
+                    .expect(INTERNAL_ERR)
+                    .into_address()
+                    .expect(INTERNAL_ERR)
+                    .as_bytes()
+                    .to_vec(),
+            })
+        }
+        pub fn encode(&self) -> Vec<u8> {
+            ethabi::encode(
+                &[
+                    ethabi::Token::Address(
+                        ethabi::Address::from_slice(&self.collateral),
+                    ),
+                    ethabi::Token::Address(ethabi::Address::from_slice(&self.ctf)),
+                    ethabi::Token::Address(
+                        ethabi::Address::from_slice(&self.neg_risk_adapter),
+                    ),
+                    ethabi::Token::Address(
+                        ethabi::Address::from_slice(&self.proxy_factory),
+                    ),
+                    ethabi::Token::Address(
+                        ethabi::Address::from_slice(&self.safe_factory),
+                    ),
+                ],
+            )
+        }
+    }
+}

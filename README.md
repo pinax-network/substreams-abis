@@ -12,6 +12,11 @@ For a maintainer-oriented map of edit points and workflows, see `docs/repo-navig
 - `lib/` + `cli.ts`: Bun/TypeScript CLI for ABI ingestion and maintenance tasks
 - `tools/codegen/`: Rust ABI → binding generator used to write files into `src/`
 
+Protocol folders may include explicit version scopes such as `v1/` and `v2/`
+when contracts evolve across major deployments. Polymarket prediction-market
+ABIs use this layout, with unchanged V1 contracts kept under
+`abi/prediction/polymarket/v1`.
+
 ## Coverage areas
 
 The repository currently includes modules and ABIs for:
