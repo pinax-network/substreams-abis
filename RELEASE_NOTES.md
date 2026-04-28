@@ -1,3 +1,24 @@
+# v1.6.0
+
+## New ABIs
+
+### Prediction Markets
+
+- Added Polymarket V2 contract ABIs and generated bindings:
+  - `CTFExchange`
+  - `NegRiskCTFExchange`
+  - `CollateralToken`
+  - `CollateralOnramp`
+  - `CollateralOfframp`
+  - `PermissionedRamp`
+  - `CtfCollateralAdapter`
+  - `NegRiskCtfCollateralAdapter`
+
+## Documentation
+
+- Scoped existing Polymarket contracts under `v1/` and added `v2/` for the new Polymarket V2 contracts.
+- Documented V1-only Polymarket core trading, wallet factory, and resolution contracts that do not have V2 ABIs.
+
 # v1.5.1
 
 ## Fixes
