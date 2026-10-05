@@ -189,11 +189,13 @@ fn generate_constructor_module(constructor: &Constructor) -> TokenStream {
         }
     };
 
+    // `substreams-ethereum-abigen` 0.12 no longer emits a file-level
+    // `INTERNAL_ERR`, so the ethabi-based constructor module declares its own.
     quote! {
         /// Contract's constructor arguments.
         #[allow(dead_code, unused_imports, unused_variables)]
         pub mod constructor {
-            use super::INTERNAL_ERR;
+            const INTERNAL_ERR: &str = "`ethabi_derive` internal error";
 
             #struct_header
             pub struct Constructor {

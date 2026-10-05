@@ -15,7 +15,6 @@ mod tests {
                 hex!("ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef").to_vec(), // topic0
                 hex!("0000000000000000000000006d1d1ebe7da598194293784252659e862d55b52c").to_vec(), // topic1
                 hex!("000000000000000000000000c7bbec68d12a0d1830360f8ec58fa599ba1b0e9b").to_vec(), // topic2
-                vec![], // topic3
             ],
             data: hex!("00000000000000000000000000000000000000000000000000000000caa7e200").to_vec(), // 199962525
             address: hex!("dac17f958d2ee523a2206206994597c13d831ec7").to_vec(), // Tether USDT
@@ -40,5 +39,12 @@ mod tests {
                 panic!("Error decoding Transfer event: {:?}", e);
             }
         }
+
+        // Since substreams-ethereum 0.12, `decode` checks the topic count the way
+        // `match_log` always did, so a log with an extra topic is rejected.
+        let mut extra_topic = log.clone();
+        extra_topic.topics.push(vec![]);
+        assert!(!Transfer::match_log(&extra_topic));
+        assert!(Transfer::decode(&extra_topic).is_err());
     }
 }

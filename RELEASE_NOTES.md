@@ -1,3 +1,20 @@
+# v2.0.0
+
+## Breaking Changes
+
+- Upgraded to `substreams` 0.8.0 and `substreams-ethereum` 0.12.0, which replace prost with buffa for the Firehose block model. A crate using `substreams-abis` 2.x must use these versions too. `substreams-abis` 1.x stays on `substreams` 0.7 and `substreams-ethereum` 0.11.
+- Regenerated every binding with `substreams-ethereum-abigen` 0.12.0. Event and function decoders now use the `substreams_ethereum::abi` readers and writers instead of `ethabi`. Struct names, fields, field types, topic hashes and method IDs are unchanged.
+  - Event `match_log` and `decode` are generic over `substreams_ethereum::LogLike`, so they take an owned `Log`, a `LogView` or buffa's `LogLazyView`.
+  - Event `decode` called without `match_log` is stricter. It returns an error when the log's topic count differs from the event's, where v1.x ignored extra topics and panicked on missing ones. It also returns an error when the data is shorter than the event's minimum encoded size, which `ethabi` sometimes accepted. `match_log` already required both, so `match_log`, `match_and_decode` and `decode` after a successful `match_log` behave as before.
+  - Generated files no longer declare a file-level `INTERNAL_ERR` constant.
+- `ethabi` 17.2 is now built without default features. Only the constructor decoders use it, and this keeps `getrandom` out of wasm32 builds now that `substreams-ethereum` no longer configures it.
+
+## Changes
+
+- Constructor decoders (`constructor::Constructor`) are now generated for every ABI that declares a constructor. Before, only bindings regenerated after constructor support was added (v1.5.0) had them.
+- `tools/codegen` uses `substreams-ethereum` 0.12.0. Each constructor module declares its own `INTERNAL_ERR`.
+- Removed an empty fourth topic from the ERC-20 `Transfer` test fixture (the on-chain log has three topics) and added a check that `decode` rejects the extra topic.
+
 # v1.6.0
 
 ## New ABIs
