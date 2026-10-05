@@ -21,3 +21,22 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - run: cargo test
       - run: cargo check --target wasm32-unknown-unknown
+
+  codegen:
+    name: Generated bindings
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.85"
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: tools/codegen
+      # Regenerate every binding; src/ must not change.
+      - run: cargo run --locked --manifest-path tools/codegen/Cargo.toml
+      - name: Check that src/ matches the codegen output
+        run: |
+          git status --porcelain -- src
+          git diff --stat -- src
+          test -z "$(git status --porcelain -- src)"
