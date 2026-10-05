@@ -17,6 +17,7 @@ This document captures durable, tool-agnostic knowledge for navigating and editi
 
 1. ABI JSON files are maintained under `abi/...`.
 2. Code generation reads those ABI files and writes Rust modules into `src/...`.
+   Event and function code comes from `substreams-ethereum-abigen`, using the `substreams-ethereum` version pinned in `tools/codegen/Cargo.toml`. Keep that version equal to the crate's own `substreams-ethereum` dependency, and regenerate every binding when it changes. Constructor modules are appended by `tools/codegen` itself and decode with `ethabi`, which is built without default features so it pulls no `getrandom` into wasm32 builds.
 3. `mod.rs` files and `src/lib.rs` define the public module tree.
 4. Integration tests under `tests/` validate decoding behavior against known logs.
 5. CI runs `cargo test` and `cargo check --target wasm32-unknown-unknown`.

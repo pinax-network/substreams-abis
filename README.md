@@ -54,6 +54,19 @@ for trx in block.transactions() {
 }
 ```
 
+Generated event decoders accept any `substreams_ethereum::LogLike`: an owned
+`Log`, a `LogView`, or buffa's `LogLazyView`.
+
+## Compatibility
+
+| `substreams-abis` | `substreams` | `substreams-ethereum` |
+|-------------------|--------------|-----------------------|
+| 2.x               | 0.8          | 0.12                  |
+| 1.x               | 0.7          | 0.11                  |
+
+The generated bindings expose `substreams` and `substreams-ethereum` types, so a
+crate must use the versions listed for its `substreams-abis` major version.
+
 ## Common maintenance workflow
 
 1. Add or update ABI JSON files in the relevant `abi/...` directory.
