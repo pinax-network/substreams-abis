@@ -16,7 +16,9 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: "1.85"
-      - uses: Swatinem/rust-cache@v2
+      # No rust-cache: the publish build runs once per release, and the cache's
+      # post step logs ENOENT errors while cleaning the target/package/ directory
+      # that `cargo publish` creates.
       - run: cargo publish --allow-dirty
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}

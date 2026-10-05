@@ -4,6 +4,7 @@ version = "2.0.0"
 description = "Substreams ABIs"
 license = "MIT"
 edition = "2021"
+rust-version = "1.83"
 authors = ["Denis <denis@pinax.network>"]
 repository = "https://github.com/pinax-network/substreams-abis"
 documentation = "https://docs.rs/substreams-abis"

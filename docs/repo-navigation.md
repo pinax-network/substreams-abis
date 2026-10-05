@@ -20,7 +20,7 @@ This document captures durable, tool-agnostic knowledge for navigating and editi
    Event and function code comes from `substreams-ethereum-abigen`, using the `substreams-ethereum` version pinned in `tools/codegen/Cargo.toml`. Keep that version equal to the crate's own `substreams-ethereum` dependency, and regenerate every binding when it changes. Constructor modules are appended by `tools/codegen` itself and decode with `ethabi`, which is built without default features so it pulls no `getrandom` into wasm32 builds.
 3. `mod.rs` files and `src/lib.rs` define the public module tree.
 4. Integration tests under `tests/` validate decoding behavior against known logs.
-5. CI runs `cargo test` and `cargo check --target wasm32-unknown-unknown`.
+5. CI runs `cargo test` and `cargo check --target wasm32-unknown-unknown`, and regenerates every binding with `tools/codegen` and fails if `src/` changes, so committed bindings cannot drift from their ABI files and the pinned generator.
 
 The `abi/` and `src/` trees are intentionally parallel, so protocol/category placement in one generally indicates where the counterpart belongs in the other.
 Some protocols also use explicit version scopes for major deployments. For example, Polymarket ABIs and bindings live under `prediction/polymarket/v1` and `prediction/polymarket/v2`; unchanged contracts stay in the older version scope instead of being duplicated into a newer one.

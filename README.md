@@ -39,12 +39,12 @@ The repository currently includes modules and ABIs for:
 
 ```rust
 use substreams_abis::standard::erc20::events::Transfer;
+use substreams_ethereum::Event;
 
 for trx in block.transactions() {
   for (log, _call_view) in trx.logs_with_calls() {
-    let transfer = match Transfer::decode(&log) {
-      Ok(transfer) => transfer,
-      Err(_) => continue,
+    let Some(transfer) = Transfer::match_and_decode(log) else {
+      continue;
     };
 
     // transfer.from
@@ -56,6 +56,12 @@ for trx in block.transactions() {
 
 Generated event decoders accept any `substreams_ethereum::LogLike`: an owned
 `Log`, a `LogView`, or buffa's `LogLazyView`.
+
+`match_and_decode` decodes a log only if `match_log` accepts it, and
+`match_log` also compares the first topic with the event's signature. `decode`
+checks the topic count and data length but not the signature, so call it only
+after `match_log`: on its own it also accepts another event of the same shape,
+such as an ERC-20 `Approval`, as a `Transfer`.
 
 ## Compatibility
 
@@ -89,6 +95,9 @@ crate must use the versions listed for its `substreams-abis` major version.
    cargo test
    cargo check --target wasm32-unknown-unknown
    ```
+
+   CI also regenerates every binding and fails if `src/` changes, so commit
+   the codegen output together with the ABI change.
 
 ## CLI usage (Bun)
 
