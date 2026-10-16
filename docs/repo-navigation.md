@@ -9,7 +9,7 @@ This document captures durable, tool-agnostic knowledge for navigating and editi
 - `abi/`: source ABI JSON files (organized to mirror `src/` module categories)
 - `tests/`: Rust integration tests for event decoding
 - `tools/codegen/`: Rust code generator that converts ABI JSON files to Rust bindings
-- `cli.ts`, `lib/`, `package.json`: Bun/TypeScript operational tooling for ABI management
+- `cli.ts`, `lib/`, `package.json`, `bun.lock`, `bunfig.toml`, `.npmrc`: Bun/TypeScript operational tooling for ABI management
 - `.github/workflows/`: CI (`ci.yml`) and publish (`publish.yml`) entrypoints
 - `target/`, `node_modules/`: build/dependency artifacts
 
@@ -61,6 +61,9 @@ Some protocols also use explicit version scopes for major deployments. For examp
 - Validate crate behavior:
   - `cargo test`
   - `cargo check --target wasm32-unknown-unknown`
+
+- Install the CLI's dependencies (Bun >= 1.4.3, from `bun.lock`; rules in `AGENTS.md`):
+  - `bun install`
 
 - Run CLI help and workflows:
   - `bun run cli.ts --help`
