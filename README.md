@@ -101,7 +101,11 @@ crate must use the versions listed for its `substreams-abis` major version.
 
 ## CLI usage (Bun)
 
+Requires Bun >= 1.4.3. Run `bun install` first: `bunfig.toml` turns off Bun's
+auto-install of missing packages.
+
 ```bash
+bun install
 bun run cli.ts fetch-token SHIB 0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE --chain eth
 bun run cli.ts fetch-all --chain base --missing --no-duplicates
 bun run cli.ts filter-standard --delete
